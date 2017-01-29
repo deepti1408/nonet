@@ -15,11 +15,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NoNet.configure()
-                .endpoint("https://keiferstone.com")
-                .timeout(5)
-                .pollFrequency(60);
-
         NoNet.monitor(this)
                 .poll()
                 .snackbar()

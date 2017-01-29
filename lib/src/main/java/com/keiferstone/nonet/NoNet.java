@@ -2,6 +2,9 @@ package com.keiferstone.nonet;
 
 import android.content.Context;
 
+/**
+ * An API for monitoring network connectivity.
+ */
 public final class NoNet {
     private static NoNet instance = null;
 
@@ -10,6 +13,11 @@ public final class NoNet {
 
     private NoNet() {}
 
+    /**
+     * Set the global configuration.
+     *
+     * @return A configuration builder that is automatically applied to the {@link NoNet} instance.
+     */
     public static Configuration.Builder configure() {
         instantiate();
         Configuration.Builder builder = new Configuration.Builder();
@@ -17,6 +25,14 @@ public final class NoNet {
         return builder;
     }
 
+    /**
+     * Start monitoring network connectivity.
+     *
+     * @param context Context for listening to connectivity events. Must be an instance of
+     *                {@link android.app.Activity} for {@link Monitor.Builder#snackbar()}
+     *                to work. Don't forget to call {@link #finish()} to stop monitoring.
+     * @return A monitor builder.
+     */
     public static Monitor.Builder monitor(Context context) {
         instantiate();
         Monitor.Builder builder = new Monitor.Builder(context);
@@ -27,6 +43,9 @@ public final class NoNet {
         return builder;
     }
 
+    /**
+     * Stop monitoring network connectivity.
+     */
     public static void finish() {
         instantiate();
         if (instance.monitor != null) {
