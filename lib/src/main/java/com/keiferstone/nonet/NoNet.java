@@ -30,7 +30,8 @@ public final class NoNet {
      *
      * @param context Context for listening to connectivity events. Must be an instance of
      *                {@link android.app.Activity} for {@link Monitor.Builder#snackbar()}
-     *                to work. Don't forget to call {@link #finish()} to stop monitoring.
+     *                to work. Don't forget to call {@link #stopMonitoring()} to stop monitoring.
+     *
      * @return A monitor builder.
      */
     public static Monitor.Builder monitor(Context context) {
@@ -46,12 +47,14 @@ public final class NoNet {
     /**
      * Stop monitoring network connectivity.
      */
-    public static void finish() {
+    public static void stopMonitoring() {
         instantiate();
         if (instance.monitor != null) {
             instance.monitor.stop();
         }
     }
+
+    // TODO: Add method for one-off network connection checks
 
     private static void instantiate() {
         if (instance == null) {

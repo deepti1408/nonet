@@ -34,21 +34,47 @@ public final class Configuration {
             configuration = new Configuration();
         }
 
+        /**
+         * Set the endpoint to check connectivity against.
+         *
+         * @param endpoint The endpoint to poll.
+         *
+         * @return This {@link Configuration.Builder}.
+         */
         public Builder endpoint(String endpoint) {
             configuration.endpoint = endpoint;
             return this;
         }
 
+        /**
+         * Set the timeout when checking connectivity.
+         *
+         * @param timeout The timeout for connectivity polls.
+         *
+         * @return This {@link Configuration.Builder}.
+         */
         public Builder timeout(int timeout) {
             configuration.timeout = timeout;
             return this;
         }
 
+        /**
+         * Set the poll frequency when checking connectivity.
+         *
+         * @param pollFrequency The frequency to poll for connectivity.
+         *
+         * @return This {@link Configuration.Builder}.
+         */
         public Builder pollFrequency(int pollFrequency) {
             configuration.pollFrequency = pollFrequency;
             return this;
         }
 
+        /**
+         * Build the configuration.
+         *
+         * @return The {@link Configuration}.
+         */
         public Configuration build() {
             return configuration;
         }

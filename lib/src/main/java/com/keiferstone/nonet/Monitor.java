@@ -134,31 +134,65 @@ public final class Monitor {
             monitor = new Monitor(context);
         }
 
+        /**
+         * Set the configuration for this {@link Monitor}.
+         *
+         * @param configuration The configuration to set.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
         public Builder configure(Configuration configuration) {
             monitor.configuration = configuration;
             return this;
         }
 
+        /**
+         * Enable polling for this monitor.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
         public Builder poll() {
             monitor.poll = true;
             return this;
         }
 
+        /**
+         * Show the default {@link Toast} message when there is no connectivity.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
         public Builder toast() {
             monitor.toast = monitor.getDefaultToast();
             return this;
         }
 
+        /**
+         * Show the default {@link Snackbar} message when there is no connectivity.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
         public Builder snackbar() {
             monitor.snackbar = monitor.getDefaultSnackbar();
             return this;
         }
 
+        /**
+         * Set a {@link Callback} to be invoked when there is a connectivity event.
+         *
+         * @param callback The callback to set.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
         public Builder callback(Callback callback) {
             monitor.callback = callback;
             return this;
         }
 
+        /**
+         * Start monitoring network connectivity.
+         *
+         * @return The {@link Monitor}
+         */
         public Monitor start() {
             monitor.start();
             return monitor;
