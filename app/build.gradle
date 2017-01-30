@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+Properties localProperties = new Properties()
+localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -11,9 +14,21 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        releaseConfig {
+            storeFile file(localProperties.getProperty("store.file"))
+            storePassword localProperties.getProperty("store.password")
+            keyAlias localProperties.getProperty("key.alias")
+            keyPassword localProperties.getProperty("key.password")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig  signingConfigs.releaseConfig
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
