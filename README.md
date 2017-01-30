@@ -1,7 +1,7 @@
 NoNet
 ======
 
-A library for monitoring network connectivity.
+An Android library for monitoring network connectivity.
 
 License
 -------

@@ -3,7 +3,7 @@ package com.keiferstone.nonet;
 import android.content.Context;
 
 /**
- * An API for monitoring network connectivity.
+ * An Android library for monitoring network connectivity.
  */
 public final class NoNet {
     private static NoNet instance = null;
