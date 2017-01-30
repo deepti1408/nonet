@@ -5,6 +5,15 @@ apply plugin: "com.jfrog.bintray"
 Properties localProperties = new Properties()
 localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
 
+// Manifest version information major.minor.patch.hotfix
+def versionMajor = 1  // Must be in [0, 99]
+def versionMinor = 0  // Must be in [0, 99]
+def versionPatch = 1  // Must be in [0, 99]
+def versionHotfix = 0 // Must be in [0, 9]
+
+project.group = "com.keiferstone"
+project.version = "${versionMajor}.${versionMinor}.${versionPatch}"
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -12,8 +21,8 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 100000 + versionMinor * 1000 + versionPatch * 10 + versionHotfix
+        versionName project.version
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -58,21 +67,21 @@ dependencies {
 
 def siteUrl = 'https://github.com/keiferstone/nonet'        // Homepage URL of the library
 def gitUrl = 'https://github.com/keiferstone/nonet.git'     // Git repository URL
-group = "com.keiferstone"                                   // Maven Group ID for the artifact
 
 install {
     repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
         pom {
             project {
                 packaging 'aar'
 
-                // Add your description here
-                name 'com.keiferstone:nonet'
+                name project.group + ":nonet"
                 description = 'An Android library for monitoring network connectivity'
                 url siteUrl
 
-                // Set your license
+                groupId = project.group
+                artifactId = "nonet"
+                version = project.version
+
                 licenses {
                     license {
                         name 'The Apache Software License, Version 2.0'
@@ -129,9 +138,9 @@ bintray {
 
     configurations = ['archives']
     pkg {
-        repo = "maven"
+        repo = "NoNet"
         // it is the name that appears in bintray when logged
-        name = "com.keiferstone:nonet"
+        name = project.group + ":nonet"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
@@ -141,6 +150,10 @@ bintray {
                 sign = true //Determines whether to GPG sign the files. The default is false
                 passphrase = localProperties.getProperty("bintray.gpg.password") //Optional. The passphrase for GPG signing'
             }
+            name = project.version
+            desc = 'NoNet Android Library ' + project.version
+            released  = new Date()
+            vcsTag = project.version
         }
     }
 }
