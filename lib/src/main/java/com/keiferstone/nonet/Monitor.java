@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
 
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
-public final class Monitor {
+public class Monitor {
     private WeakReference<Context> contextRef;
     private Configuration configuration;
     private boolean poll;
@@ -21,7 +21,7 @@ public final class Monitor {
     private Callback callback;
     private Handler handler;
 
-    private Monitor(Context context) {
+    Monitor(Context context) {
         contextRef = new WeakReference<>(context);
         configuration = new Configuration();
         poll = false;
@@ -31,7 +31,7 @@ public final class Monitor {
         handler = new Handler();
     }
 
-    private void start() {
+    void start() {
         registerConnectivityReceiver();
         schedulePollTask();
     }
@@ -41,7 +41,7 @@ public final class Monitor {
         cancelPollTask();
     }
 
-    private void poll() {
+    void poll() {
         PollTask.run(configuration, new PollTask.OnPollCompletedListener() {
             @Override
             public void onPollCompleted(@ConnectionStatus int connectionStatus) {

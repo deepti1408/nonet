@@ -30,7 +30,7 @@ public final class Configuration {
     public static class Builder {
         Configuration configuration;
 
-        Builder() {
+        public Builder() {
             configuration = new Configuration();
         }
 
