@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
@@ -104,29 +105,6 @@ public class Monitor {
         return null;
     }
 
-    @Nullable
-    private Toast getDefaultToast() {
-        Context context = getContext();
-        if (context != null) {
-            return Toast.makeText(context, R.string.no_server_connection_message, Toast.LENGTH_SHORT);
-        }
-
-        return null;
-    }
-
-    @Nullable
-    private Snackbar getDefaultSnackbar() {
-        Context context = getContext();
-        if (context != null && context instanceof Activity) {
-            View view = ((Activity) context).findViewById(android.R.id.content);
-            if (view != null) {
-                return Snackbar.make(view, R.string.no_server_connection_message, Snackbar.LENGTH_INDEFINITE);
-            }
-        }
-
-        return null;
-    }
-
     public static class Builder {
         Monitor monitor;
 
@@ -162,7 +140,43 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder toast() {
-            monitor.toast = monitor.getDefaultToast();
+            monitor.toast = ToastFactory.getToast(monitor.getContext());
+            return this;
+        }
+
+        /**
+         * Show a {@link Toast} with the specified message when there is no connectivity.
+         *
+         * @param message The message to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder toast(String message) {
+            monitor.toast = ToastFactory.getToast(monitor.getContext(), message);
+            return this;
+        }
+
+        /**
+         * Show a {@link Toast} with the specified message when there is no connectivity.
+         *
+         * @param messageRes The message to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder toast(@StringRes int messageRes) {
+            monitor.toast = ToastFactory.getToast(monitor.getContext(), messageRes);
+            return this;
+        }
+
+        /**
+         * Show a custom {@link Toast} when there is no connectivity.
+         *
+         * @param toast The {@link Toast} to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder toast(Toast toast) {
+            monitor.toast = toast;
             return this;
         }
 
@@ -172,7 +186,43 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder snackbar() {
-            monitor.snackbar = monitor.getDefaultSnackbar();
+            monitor.snackbar = SnackbarFactory.getSnackbar(monitor.getContext());
+            return this;
+        }
+
+        /**
+         * Show a {@link Snackbar} with the specified message when there is no connectivity.
+         *
+         * @param message The message to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder snackbar(String message) {
+            monitor.snackbar = SnackbarFactory.getSnackbar(monitor.getContext(), message);
+            return this;
+        }
+
+        /**
+         * Show a {@link Snackbar} with the specified message when there is no connectivity.
+         *
+         * @param messageRes The message to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder snackbar(@StringRes int messageRes) {
+            monitor.snackbar = SnackbarFactory.getSnackbar(monitor.getContext(), messageRes);
+            return this;
+        }
+
+        /**
+         * Show a custom {@link Snackbar} when there is no connectivity.
+         *
+         * @param snackbar The {@link Snackbar} to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder snackbar(Snackbar snackbar) {
+            monitor.snackbar = snackbar;
             return this;
         }
 
