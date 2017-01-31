@@ -1,7 +1,7 @@
 package com.keiferstone.nonet;
 
 public final class Configuration {
-    private static final String DEFAULT_ENDPOINT = "https://google.com";
+    private static final String DEFAULT_ENDPOINT = "http://gstatic.com/generate_204";
     private static final int DEFAULT_TIMEOUT = 10;
     private static final int DEFAULT_POLL_FREQUENCY = 60;
 
