@@ -8,7 +8,7 @@ localProperties.load(project.rootProject.file('local.properties').newDataInputSt
 // Manifest version information major.minor.patch.hotfix
 def versionMajor = 1  // Must be in [0, 99]
 def versionMinor = 0  // Must be in [0, 99]
-def versionPatch = 4  // Must be in [0, 99]
+def versionPatch = 5  // Must be in [0, 99]
 def versionHotfix = 0 // Must be in [0, 9]
 
 project.group = "com.keiferstone"
@@ -131,7 +131,6 @@ artifacts {
     archives sourcesJar
 }
 
-// https://github.com/bintray/gradle-bintray-plugin
 bintray {
     user = localProperties.getProperty("bintray.user")
     key = localProperties.getProperty("bintray.apikey")
@@ -139,7 +138,6 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        // it is the name that appears in bintray when logged
         name = project.group + ":nonet"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
@@ -147,8 +145,8 @@ bintray {
         publish = true
         version {
             gpg {
-                sign = true //Determines whether to GPG sign the files. The default is false
-                passphrase = localProperties.getProperty("bintray.gpg.password") //Optional. The passphrase for GPG signing'
+                sign = true
+                passphrase = localProperties.getProperty("bintray.gpg.password")
             }
             name = project.version
             desc = 'NoNet Android Library ' + project.version
