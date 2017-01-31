@@ -1,12 +1,48 @@
-No Net
+NoNet
 =======
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.keiferstone/nonet/badge.svg)](http://www.javadoc.io/doc/com.keiferstone/nonet)
 
-No Net is an Android library for monitoring network connectivity.
+NoNet is an Android library for monitoring network connectivity.
 
 ![](https://keiferstone.com/nonet-demo-ss.png)
+<img src="https://keiferstone.com/nonet-demo-ss.png" alt="No Net demo screenshot" style="width: 00px;"/>
+
+
+Sample Usage
+-----
+
+Monitor for network connectivity changes and show a snackbar when disconnected:
+```java
+NoNet.monitor(this)
+        .poll()
+        .snackbar()
+        .start();
+```
+
+Set the global configuration:
+```java
+NoNet.configure()
+        .endpoint("https://keiferstone.com")
+        .timeout(5)
+        .pollFrequency(60);
+```
+
+Make a one-off network connectivity check with a custom configuration, showing a toast if 
+disconnected, and provide a callback to be invoked on result:
+```java
+NoNet.check(this)
+        .configure(configuration)
+        .toast()
+        .callback(new Monitor.Callback() {
+            @Override
+            public void onConnectionChanged(int connectionStatus) {
+                // TODO
+            }
+        })
+        .start();
+```
 
 Download
 --------
