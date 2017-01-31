@@ -14,10 +14,22 @@ Sample Usage
 
 Monitor for network connectivity changes and show a snackbar when disconnected:
 ```java
-NoNet.monitor(this)
-        .poll()
-        .snackbar()
-        .start();
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ...
+    NoNet.monitor(this)
+            .poll()
+            .snackbar()
+            .start();
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+
+    NoNet.stopMonitoring();
+}
 ```
 
 Set the global configuration:
