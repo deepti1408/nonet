@@ -1,7 +1,7 @@
 NoNet
 =======
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)
+[![Maven Central](https://api.bintray.com/packages/keiferstone/maven/com.keiferstone%3Anonet/images/download.svg)](https://bintray.com/keiferstone/maven/com.keiferstone%3Anonet/_latestVersion)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.keiferstone/nonet/badge.svg)](http://www.javadoc.io/doc/com.keiferstone/nonet)
 
 NoNet is an Android library for monitoring network connectivity.
@@ -12,14 +12,14 @@ Download
 
 Download [the latest JAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.0.4'
+compile 'com.keiferstone:nonet:1.0.5'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
 </dependency>
 ```
 
