@@ -63,9 +63,8 @@ public class Check extends Monitor {
         }
 
         @Override
-        public Check start() {
-            super.start();
-            return (Check) monitor;
+        public Monitor start() {
+            return super.start();
         }
     }
 }
