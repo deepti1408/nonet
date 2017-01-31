@@ -1,7 +1,7 @@
 NoNet
 =======
 
-[![Maven Central](https://api.bintray.com/packages/keiferstone/maven/com.keiferstone%3Anonet/images/download.svg)](https://bintray.com/keiferstone/maven/com.keiferstone%3Anonet/_latestVersion)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.keiferstone/nonet/badge.svg)](http://www.javadoc.io/doc/com.keiferstone/nonet)
 
 NoNet is an Android library for monitoring network connectivity.
