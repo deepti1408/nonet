@@ -89,4 +89,4 @@ License
     limitations under the License.
 
 
- [1]: https://repo1.maven.org/maven2/com/keiferstone/nonet/1.0.6/nonet-1.0.6.aar
+ [1]: http://search.maven.org/#search|gav|1|g:"com.keiferstone"%20AND%20a:"nonet"
