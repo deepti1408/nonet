@@ -6,11 +6,12 @@ No Net
 
 No Net is an Android library for monitoring network connectivity.
 
+![](https://keiferstone.com/nonet-demo-ss.png)
 
 Download
 --------
 
-Download [the latest JAR][1] or grab via Gradle:
+Download [the latest AAR][1] or grab via Gradle:
 ```groovy
 compile 'com.keiferstone:nonet:1.0.6'
 ```
@@ -40,4 +41,4 @@ License
     limitations under the License.
 
 
- [1]: https://search.maven.org/remote_content?g=com.keiferstone&a=nonet&v=LATEST
+ [1]: https://repo1.maven.org/maven2/com/keiferstone/nonet/1.0.6/nonet-1.0.6.aar
