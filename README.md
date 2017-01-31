@@ -23,9 +23,6 @@ or Maven:
 </dependency>
 ```
 
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
-
-
 
 License
 --------
@@ -44,4 +41,3 @@ License
 
 
  [1]: https://search.maven.org/remote_content?g=com.keiferstone&a=nonet&v=LATEST
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/
