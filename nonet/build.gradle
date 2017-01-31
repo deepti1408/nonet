@@ -19,7 +19,7 @@ android {
     buildToolsVersion "25.0.0"
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode versionMajor * 100000 + versionMinor * 1000 + versionPatch * 10 + versionHotfix
         versionName project.version
@@ -38,7 +38,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig  signingConfigs.releaseConfig
+            signingConfig signingConfigs.releaseConfig
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -62,11 +62,11 @@ dependencies {
     compile 'com.android.support:design:25.1.0'
 
     // Square libraries
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 }
 
-def siteUrl = 'https://github.com/keiferstone/nonet'        // Homepage URL of the library
-def gitUrl = 'https://github.com/keiferstone/nonet.git'     // Git repository URL
+def siteUrl = 'https://github.com/keiferstone/nonet'
+def gitUrl = 'https://github.com/keiferstone/nonet.git'
 
 install {
     repositories.mavenInstaller {
