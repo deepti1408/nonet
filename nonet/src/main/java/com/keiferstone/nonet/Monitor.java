@@ -1,12 +1,10 @@
 package com.keiferstone.nonet;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -47,7 +45,7 @@ public class Monitor {
             @Override
             public void onPollCompleted(@ConnectionStatus int connectionStatus) {
                 if (callback != null) {
-                    callback.onConnectionChanged(connectionStatus);
+                    callback.onConnectionEvent(connectionStatus);
                 }
 
                 if (connectionStatus == DISCONNECTED) {
@@ -250,7 +248,7 @@ public class Monitor {
     }
 
     public interface Callback {
-        void onConnectionChanged(@ConnectionStatus int connectionStatus);
+        void onConnectionEvent(@ConnectionStatus int connectionStatus);
     }
 
 

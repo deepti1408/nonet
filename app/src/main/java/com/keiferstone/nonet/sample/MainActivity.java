@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Monitor.Callback monitorCallback = new Monitor.Callback() {
         @Override
-        public void onConnectionChanged(@ConnectionStatus int connectionStatus) {
-            Toast.makeText(MainActivity.this, "[onConnectionChanged( " + connectionStatus + " )]", Toast.LENGTH_SHORT).show();
+        public void onConnectionEvent(@ConnectionStatus int connectionStatus) {
+            Toast.makeText(MainActivity.this, "[onConnectionEvent( " + connectionStatus + " )]", Toast.LENGTH_SHORT).show();
         }
     };
 }
