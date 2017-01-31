@@ -12,14 +12,14 @@ Download
 
 Download [the latest JAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.0.5'
+compile 'com.keiferstone:nonet:1.0.6'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
 </dependency>
 ```
 
