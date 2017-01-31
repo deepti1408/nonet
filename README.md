@@ -1,10 +1,10 @@
-NoNet
+No Net
 =======
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.keiferstone/nonet/badge.svg)](http://www.javadoc.io/doc/com.keiferstone/nonet)
 
-NoNet is an Android library for monitoring network connectivity.
+No Net is an Android library for monitoring network connectivity.
 
 
 Download
