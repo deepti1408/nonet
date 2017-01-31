@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
 public class Monitor {
@@ -19,6 +23,7 @@ public class Monitor {
     private Snackbar snackbar;
     private Callback callback;
     private Handler handler;
+    private Observable<Integer> observable;
 
     Monitor(Context context) {
         contextRef = new WeakReference<>(context);
@@ -65,6 +70,22 @@ public class Monitor {
                 }
             }
         });
+    }
+
+    public Observable<Integer> observe() {
+        createObservable();
+        return observable;
+    }
+
+    private void createObservable() {
+        if (observable == null) {
+            observable = Observable.create(new ObservableOnSubscribe<Integer>() {
+                @Override
+                public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                    callback = new ObservableCallbackInterceptor(callback, e);
+                }
+            });
+        }
     }
 
     private void registerConnectivityReceiver() {
@@ -250,7 +271,6 @@ public class Monitor {
     public interface Callback {
         void onConnectionEvent(@ConnectionStatus int connectionStatus);
     }
-
 
     private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver() {
         @Override

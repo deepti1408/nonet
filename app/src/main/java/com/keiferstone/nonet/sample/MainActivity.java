@@ -9,6 +9,11 @@ import com.keiferstone.nonet.ConnectionStatus;
 import com.keiferstone.nonet.Monitor;
 import com.keiferstone.nonet.NoNet;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -19,19 +24,14 @@ public class MainActivity extends AppCompatActivity {
         NoNet.monitor(this)
                 .poll()
                 .snackbar()
-                .callback(monitorCallback)
-                .start();
-
-        Configuration configuration = new Configuration.Builder()
-                .endpoint("https://keiferstone.com")
-                .timeout(20)
-                .build();
-
-        NoNet.check(this)
-                .configure(configuration)
-                .toast()
-                .callback(monitorCallback)
-                .start();
+                .start()
+                .observe()
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        monitorCallback.onConnectionEvent(integer);
+                    }
+                });
     }
 
     @Override
