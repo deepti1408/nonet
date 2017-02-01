@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: "com.jfrog.bintray"
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'nebula.provided-base'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 Properties localProperties = new Properties()
 localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -63,7 +65,7 @@ dependencies {
 
     // Third-party libraries
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
+    provided 'io.reactivex.rxjava2:rxjava:2.0.5'
 }
 
 def siteUrl = 'https://github.com/keiferstone/nonet'
