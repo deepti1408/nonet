@@ -1,18 +1,27 @@
 package com.keiferstone.nonet;
 
-public final class Configuration {
-    private static final String DEFAULT_ENDPOINT = "http://gstatic.com/generate_204";
-    private static final int DEFAULT_TIMEOUT = 10;
-    private static final int DEFAULT_POLL_FREQUENCY = 60;
+import okhttp3.Request;
 
+@SuppressWarnings("WeakerAccess")
+public final class Configuration {
+    static final String DEFAULT_ENDPOINT = "http://gstatic.com/generate_204";
+    static final int DEFAULT_TIMEOUT = 10;
+    static final int DEFAULT_POLL_FREQUENCY = 60;
+
+    private Request request;
     private String endpoint;
     private int timeout;
     private int pollFrequency;
 
     Configuration() {
+        request = null;
         endpoint = DEFAULT_ENDPOINT;
         timeout = DEFAULT_TIMEOUT;
         pollFrequency = DEFAULT_POLL_FREQUENCY;
+    }
+
+    Request getRequest() {
+        return request;
     }
 
     String getEndpoint() {
@@ -32,6 +41,18 @@ public final class Configuration {
 
         public Builder() {
             configuration = new Configuration();
+        }
+
+        /**
+         * Set a custom {@link Request} to be executed when monitoring for connectivity events.
+         *
+         * @param request The request to set.
+         *
+         * @return This {@link Configuration.Builder}
+         */
+        public Builder request(Request request) {
+            configuration.request = request;
+            return this;
         }
 
         /**

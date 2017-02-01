@@ -36,11 +36,12 @@ class PollTask extends AsyncTask<Void, Void, Integer> {
     @ConnectionStatus
     @Override
     protected Integer doInBackground(Void... params) {
-        Log.d(TAG, "Executing request to " + configuration.getEndpoint());
-
-        Request request = new Request.Builder()
-                .url(configuration.getEndpoint())
-                .build();
+        Request request = configuration.getRequest();
+        if (request == null) {
+            request = new Request.Builder()
+                    .url(configuration.getEndpoint())
+                    .build();
+        }
 
         Response response;
         try {

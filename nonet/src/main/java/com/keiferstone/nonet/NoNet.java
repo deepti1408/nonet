@@ -5,6 +5,7 @@ import android.content.Context;
 /**
  * An Android library for monitoring network connectivity.
  */
+@SuppressWarnings("WeakerAccess")
 public final class NoNet {
     private static NoNet instance = null;
 
