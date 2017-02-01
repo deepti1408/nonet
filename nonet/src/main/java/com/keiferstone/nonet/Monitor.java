@@ -72,6 +72,12 @@ public class Monitor {
         });
     }
 
+    /**
+     * Observe this {@link Monitor} for connectivity events. When there is a connectivity event,
+     * the {@link ConnectionStatus} will be emitted to {@link io.reactivex.Observer#onNext(Object)}.
+     *
+     * @return An {@link Observable} that emits a {@link ConnectionStatus} on connectivity events.
+     */
     public Observable<Integer> observe() {
         createObservable();
         return observable;
