@@ -12,7 +12,9 @@ class ObservableCallbackInterceptor implements Monitor.Callback {
     }
 
     void stopEmitting() {
-        emitter.onComplete();
+        if (emitter != null) {
+            emitter.onComplete();
+        }
     }
 
     @Override
