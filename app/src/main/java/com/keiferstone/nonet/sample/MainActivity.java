@@ -13,6 +13,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new Consumer<Integer>() {
                     @Override
                     public void accept(Integer integer) throws Exception {
-                        monitorCallback.onConnectionEvent(integer);
+                        monitorCallback.onConnectionEvent(null, integer);
                     }
                 });
     }
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Monitor.Callback monitorCallback = new Monitor.Callback() {
         @Override
-        public void onConnectionEvent(@ConnectionStatus int connectionStatus) {
+        public void onConnectionEvent(Response response, @ConnectionStatus int connectionStatus) {
             Toast.makeText(MainActivity.this, "[onConnectionEvent( " + connectionStatus + " )]", Toast.LENGTH_SHORT).show();
         }
     };

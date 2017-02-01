@@ -12,7 +12,7 @@ import okhttp3.Response;
 
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
-class PollTask extends AsyncTask<Void, Void, Integer> {
+class PollTask extends AsyncTask<Void, Void, Response> {
     private static final String TAG = PollTask.class.getSimpleName();
 
     private Configuration configuration;
@@ -33,9 +33,8 @@ class PollTask extends AsyncTask<Void, Void, Integer> {
                 .build();
     }
 
-    @ConnectionStatus
     @Override
-    protected Integer doInBackground(Void... params) {
+    protected Response doInBackground(Void... params) {
         Request request = configuration.getRequest();
         if (request == null) {
             request = new Request.Builder()
@@ -43,33 +42,28 @@ class PollTask extends AsyncTask<Void, Void, Integer> {
                     .build();
         }
 
-        Response response;
+        Response response = null;
         try {
             response = client.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
-            return DISCONNECTED;
         }
 
-        if (response != null) {
-            if (response.isSuccessful()) {
-                return CONNECTED;
-            }
-        }
-
-        return DISCONNECTED;
+        return response;
     }
 
     @Override
-    protected void onPostExecute(@ConnectionStatus Integer integer) {
-        Log.d(TAG, "Poll result: " + integer);
+    protected void onPostExecute(Response response) {
+        @ConnectionStatus int connectionStatus = (response != null && response.isSuccessful())
+                ? CONNECTED : DISCONNECTED;
+        Log.d(TAG, "Poll result: " + connectionStatus);
 
         if (listener != null) {
-            listener.onPollCompleted(integer);
+            listener.onPollCompleted(response, connectionStatus);
         }
     }
 
     interface OnPollCompletedListener {
-        void onPollCompleted(@ConnectionStatus int connectionStatus);
+        void onPollCompleted(Response response, @ConnectionStatus int connectionStatus);
     }
 }

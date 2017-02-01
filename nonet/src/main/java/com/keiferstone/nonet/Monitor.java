@@ -12,6 +12,7 @@ import java.lang.ref.WeakReference;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import okhttp3.Response;
 
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
@@ -50,9 +51,10 @@ public class Monitor {
     void poll() {
         PollTask.run(configuration, new PollTask.OnPollCompletedListener() {
             @Override
-            public void onPollCompleted(@ConnectionStatus int connectionStatus) {
+            public void onPollCompleted(Response response, @ConnectionStatus int connectionStatus) {
                 if (callback != null) {
-                    callback.onConnectionEvent(connectionStatus);
+                    callback.onConnectionEvent(response, connectionStatus);
+                    response.close();
                 }
 
                 if (connectionStatus == DISCONNECTED) {
@@ -284,7 +286,7 @@ public class Monitor {
     }
 
     public interface Callback {
-        void onConnectionEvent(@ConnectionStatus int connectionStatus);
+        void onConnectionEvent(Response response, @ConnectionStatus int connectionStatus);
     }
 
     private ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver() {

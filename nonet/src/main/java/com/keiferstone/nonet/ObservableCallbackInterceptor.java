@@ -1,6 +1,7 @@
 package com.keiferstone.nonet;
 
 import io.reactivex.ObservableEmitter;
+import okhttp3.Response;
 
 class ObservableCallbackInterceptor implements Monitor.Callback {
     private final Monitor.Callback callback;
@@ -18,12 +19,13 @@ class ObservableCallbackInterceptor implements Monitor.Callback {
     }
 
     @Override
-    public void onConnectionEvent(@ConnectionStatus int connectionStatus) {
+    public void onConnectionEvent(Response response, @ConnectionStatus int connectionStatus) {
         if (callback != null) {
-            callback.onConnectionEvent(connectionStatus);
+            callback.onConnectionEvent(response, connectionStatus);
         }
 
         if (emitter != null) {
+            // TODO: Add support for emitting a response
             emitter.onNext(connectionStatus);
         }
     }
