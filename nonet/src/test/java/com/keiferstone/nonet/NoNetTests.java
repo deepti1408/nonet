@@ -9,6 +9,5 @@ public class NoNetTests {
     public void defaultMonitorTest() throws Exception {
         Monitor monitor = NoNet.monitor(null).start();
         assertNotNull(monitor);
-        assertNotNull(monitor.observe());
     }
 }
