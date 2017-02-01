@@ -11,6 +11,10 @@ class ObservableCallbackInterceptor implements Monitor.Callback {
         this.emitter = emitter;
     }
 
+    void stopEmitting() {
+        emitter.onComplete();
+    }
+
     @Override
     public void onConnectionEvent(@ConnectionStatus int connectionStatus) {
         if (callback != null) {
