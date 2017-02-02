@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         NoNet.monitor(this)
                 .poll()
-                .snackbar()
+                .banner()
                 .start()
                 .observe()
                 .subscribe(new Consumer<Integer>() {

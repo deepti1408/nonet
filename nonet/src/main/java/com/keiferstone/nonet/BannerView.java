@@ -19,12 +19,12 @@ public class BannerView extends AppCompatTextView {
     }
 
     public void show() {
-        // TODO
+        // TODO: animate
+        setVisibility(VISIBLE);
     }
 
     public void hide() {
-        // TODO
+        // TODO: animate
+        setVisibility(GONE);
     }
-
-    // TODO
 }
