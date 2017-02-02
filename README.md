@@ -12,11 +12,11 @@ NoNet is an Android library for monitoring network connectivity.
 Sample Usage
 -----
 
-Monitor for network connectivity changes and show a snackbar when disconnected:
+Monitor for network connectivity events and show a snackbar when disconnected:
 ```java
 @Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+protected void onStart() {
+    super.onStart();
     ...
     NoNet.monitor(this)
             .poll()
@@ -25,8 +25,8 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 
 @Override
-protected void onDestroy() {
-    super.onDestroy();
+protected void onStop() {
+    super.onStop();
 
     NoNet.stopMonitoring();
 }
@@ -56,19 +56,35 @@ NoNet.check(this)
 ```
 
 
+RxJava Support
+--------------
+
+Create an Observable from a Monitor that emits connectivity events:
+```java
+NoNet.monitor(this)
+        .snackbar()
+        .start()
+        .observe()
+        .subscribe(connectionStatus -> {...});
+```
+
+**Note: Calling `Monitor.observe()` without declaring the io.reactivex.rxjava2:rxjava dependency in
+your `build.gradle` will cause errors at compile-time.**
+
+
 Download
 --------
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.0.8'
+compile 'com.keiferstone:nonet:1.1.0'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.0.8</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
