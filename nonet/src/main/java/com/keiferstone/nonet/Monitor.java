@@ -312,7 +312,7 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(BannerView banner) {
-            monitor.banner = banner; // TODO
+            monitor.banner = banner;
             return this;
         }
 

@@ -11,10 +11,10 @@ class BannerFactory {
     }
 
     static BannerView getBanner(Context context, String message) {
-        return new BannerView(context);
+        return new BannerView(context); // TODO
     }
 
     static BannerView getBanner(Context context, @StringRes int messageRes) {
-        return new BannerView(context);
+        return new BannerView(context); // TODO
     }
 }

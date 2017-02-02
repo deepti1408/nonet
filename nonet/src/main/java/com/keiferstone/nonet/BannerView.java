@@ -19,10 +19,12 @@ public class BannerView extends AppCompatTextView {
     }
 
     public void show() {
-
+        // TODO
     }
 
     public void hide() {
-
+        // TODO
     }
+
+    // TODO
 }
