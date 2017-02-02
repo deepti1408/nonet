@@ -31,36 +31,29 @@ public class ConfigurationTests {
         assertEquals(configuration.getPollFrequency(), Configuration.DEFAULT_POLL_FREQUENCY);
     }
 
-    @Test
-    public void nullEndpointShouldUseDefaultEndpointTest() throws Exception {
-        Configuration configuration = new Configuration.Builder()
-                .endpoint(null)
-                .build();
-        assertEquals(configuration.getEndpoint(), Configuration.DEFAULT_ENDPOINT);
+    @Test(expected = IllegalArgumentException.class)
+    public void nullEndpointShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().endpoint(null);
     }
 
-    @Test
-    public void emptyEndpointShouldUseDefaultEndpointTest() throws Exception {
-        Configuration configuration = new Configuration.Builder()
-                .endpoint("")
-                .build();
-        assertEquals(configuration.getEndpoint(), Configuration.DEFAULT_ENDPOINT);
+    @Test(expected = IllegalArgumentException.class)
+    public void emptyEndpointShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().endpoint("");
     }
 
-    @Test
-    public void negativeTimeoutShouldUseDefaultTimeoutTest() throws Exception {
-        Configuration configuration = new Configuration.Builder()
-                .timeout(-1)
-                .build();
-        assertEquals(configuration.getTimeout(), Configuration.DEFAULT_TIMEOUT);
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidEndpointShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().endpoint("invalid endpoint");
     }
 
-    @Test
-    public void nonPositivePollFrequencyShouldUseDefaultPollFrequencyTest() throws Exception {
-        Configuration configuration = new Configuration.Builder()
-                .pollFrequency(0)
-                .build();
-        assertEquals(configuration.getPollFrequency(), Configuration.DEFAULT_POLL_FREQUENCY);
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeTimeoutShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().timeout(-1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nonPositivePollFrequencyShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().pollFrequency(0);
     }
 
     @Test

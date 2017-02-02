@@ -1,6 +1,6 @@
 package com.keiferstone.nonet;
 
-import android.text.TextUtils;
+import android.util.Patterns;
 
 @SuppressWarnings("WeakerAccess")
 public final class Configuration {
@@ -19,8 +19,8 @@ public final class Configuration {
     }
 
     private void setEndpoint(String endpoint) {
-        if (TextUtils.isEmpty(endpoint)) {
-            this.endpoint = DEFAULT_ENDPOINT;
+        if (endpoint == null || !Patterns.WEB_URL.matcher(endpoint).matches()) {
+            throw new IllegalArgumentException("Endpoint must be a valid URL. Supplied URL: " + endpoint);
         } else {
             this.endpoint = endpoint;
         }
@@ -28,7 +28,7 @@ public final class Configuration {
 
     private void setTimeout(int timeout) {
         if (timeout < 0) {
-            this.timeout = DEFAULT_TIMEOUT;
+            throw new IllegalArgumentException("Timeout must be non-negative. Supplied timeout: " + timeout);
         } else {
             this.timeout = timeout;
         }
@@ -36,7 +36,7 @@ public final class Configuration {
 
     private void setPollFrequency(int pollFrequency) {
         if (pollFrequency <= 0) {
-            this.pollFrequency = DEFAULT_POLL_FREQUENCY;
+            throw new IllegalArgumentException("Poll frequency must be positive. Supplied timeout: " + pollFrequency);
         } else {
             this.pollFrequency = pollFrequency;
         }
@@ -62,12 +62,13 @@ public final class Configuration {
         }
 
         /**
-         * Set the endpoint to check connectivity against. Defaults to
-         * http://gstatic.com/generate_204 if null or empty.
+         * Set the endpoint to check connectivity against. Must be a valid URL.
          *
          * @param endpoint The endpoint to poll.
          *
          * @return This {@link Configuration.Builder}.
+         *
+         * @throws IllegalArgumentException If endpoint is invalid.
          */
         public Builder endpoint(String endpoint) {
             configuration.setEndpoint(endpoint);
@@ -75,11 +76,13 @@ public final class Configuration {
         }
 
         /**
-         * Set the timeout when checking connectivity. Defaults to 10 if negative.
+         * Set the timeout when checking connectivity. Must be non-negative.
          *
          * @param timeout The timeout for connectivity polls.
          *
          * @return This {@link Configuration.Builder}.
+         *
+         * @throws IllegalArgumentException If timeout is negative.
          */
         public Builder timeout(int timeout) {
             configuration.setTimeout(timeout);
@@ -87,11 +90,13 @@ public final class Configuration {
         }
 
         /**
-         * Set the poll frequency when checking connectivity. Defaults to 60 if non-positive.
+         * Set the poll frequency when checking connectivity. Must be positive.
          *
          * @param pollFrequency The frequency to poll for connectivity.
          *
          * @return This {@link Configuration.Builder}.
+         *
+         * @throws IllegalArgumentException If pollFrequency is non-positive.
          */
         public Builder pollFrequency(int pollFrequency) {
             configuration.setPollFrequency(pollFrequency);
