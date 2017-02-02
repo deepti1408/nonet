@@ -72,6 +72,16 @@ NoNet.monitor(this)
 your `build.gradle` will cause errors at compile-time.**
 
 
+ProGuard
+--------
+
+If you're using ProGuard, you may need to add these lines to your `proguard-rules.pro`:
+```
+-dontwarn io.reactivex.**
+-dontwarn okio.**
+```
+
+
 Download
 --------
 
