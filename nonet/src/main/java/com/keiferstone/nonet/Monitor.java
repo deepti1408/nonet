@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -15,12 +16,14 @@ import io.reactivex.ObservableOnSubscribe;
 
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
+@SuppressWarnings("WeakerAccess")
 public class Monitor {
     private WeakReference<Context> contextRef;
     private Configuration configuration;
     private boolean poll;
     private Toast toast;
     private Snackbar snackbar;
+    private BannerView banner;
     private Callback callback;
     private Handler handler;
     private Observable<Integer> observable;
@@ -31,6 +34,7 @@ public class Monitor {
         poll = false;
         toast = null;
         snackbar = null;
+        banner = null;
         callback = null;
         handler = new Handler();
         observable = null;
@@ -62,12 +66,18 @@ public class Monitor {
                     if (snackbar != null) {
                         snackbar.show();
                     }
+                    if (banner != null) {
+                        banner.show();
+                    }
                 } else {
                     if (toast != null) {
                         toast.cancel();
                     }
                     if (snackbar != null) {
                         snackbar.dismiss();
+                    }
+                    if (banner != null) {
+                        banner.hide();
                     }
                 }
             }
@@ -257,6 +267,52 @@ public class Monitor {
          */
         public Builder snackbar(Snackbar snackbar) {
             monitor.snackbar = snackbar;
+            return this;
+        }
+
+        /**
+         * Show the default {@link BannerView} message when there is no connectivity.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder banner() {
+            monitor.banner = BannerFactory.getBanner(monitor.getContext());
+            return this;
+        }
+
+        /**
+         * Show a {@link BannerView} with the specified message when there is no connectivity.
+         *
+         * @param message The message to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder banner(String message) {
+            monitor.banner = BannerFactory.getBanner(monitor.getContext(), message);
+            return this;
+        }
+
+        /**
+         * Show a {@link BannerView} with the specified message when there is no connectivity.
+         *
+         * @param messageRes The message to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder banner(@StringRes int messageRes) {
+            monitor.banner = BannerFactory.getBanner(monitor.getContext(), messageRes);
+            return this;
+        }
+
+        /**
+         * Show a custom {@link BannerView} when there is no connectivity.
+         *
+         * @param banner The {@link BannerView} to show.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder banner(BannerView banner) {
+            monitor.banner = banner; // TODO
             return this;
         }
 
