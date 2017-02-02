@@ -1,14 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: "com.jfrog.bintray"
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'nebula.provided-base'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 Properties localProperties = new Properties()
 localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 // Manifest version information major.minor.patch.hotfix
 def versionMajor = 1  // Must be in [0, 99]
-def versionMinor = 0  // Must be in [0, 99]
-def versionPatch = 8  // Must be in [0, 99]
+def versionMinor = 1  // Must be in [0, 99]
+def versionPatch = 0  // Must be in [0, 99]
 def versionHotfix = 0 // Must be in [0, 9]
 
 project.group = "com.keiferstone"
@@ -63,7 +65,7 @@ dependencies {
 
     // Third-party libraries
     compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.0.5'
+    provided 'io.reactivex.rxjava2:rxjava:2.0.5'
 }
 
 def siteUrl = 'https://github.com/keiferstone/nonet'
