@@ -33,6 +33,7 @@ public class Monitor {
         snackbar = null;
         callback = null;
         handler = new Handler();
+        observable = null;
     }
 
     void start() {
@@ -43,6 +44,7 @@ public class Monitor {
     void stop() {
         unregisterConnectivityReceiver();
         cancelPollTask();
+        destroyObservable();
     }
 
     void poll() {
@@ -92,6 +94,13 @@ public class Monitor {
                 }
             });
         }
+    }
+
+    private void destroyObservable() {
+        if (callback instanceof ObservableCallbackInterceptor) {
+            ((ObservableCallbackInterceptor) callback).stopEmitting();
+        }
+        observable = null;
     }
 
     private void registerConnectivityReceiver() {
