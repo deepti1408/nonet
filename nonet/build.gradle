@@ -58,6 +58,7 @@ dependencies {
 
     // Unit tests
     testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.2.2"
 
     // Android support libraries
     compile 'com.android.support:appcompat-v7:25.1.0'
