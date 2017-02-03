@@ -36,7 +36,7 @@ public final class Configuration {
 
     private void setPollFrequency(int pollFrequency) {
         if (pollFrequency <= 0) {
-            throw new IllegalArgumentException("Poll frequency must be positive. Supplied timeout: " + pollFrequency);
+            throw new IllegalArgumentException("Poll frequency must be positive. Supplied poll frequency: " + pollFrequency);
         } else {
             this.pollFrequency = pollFrequency;
         }
