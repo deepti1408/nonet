@@ -10,4 +10,6 @@ public class NoNetTests {
         Monitor monitor = NoNet.monitor(null).start();
         assertNotNull(monitor);
     }
+
+    // TODO:
 }
