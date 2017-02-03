@@ -62,7 +62,7 @@ RxJava Support
 Create an Observable from a Monitor that emits connectivity events:
 ```java
 NoNet.monitor(this)
-        .snackbar()
+        .banner()
         .start()
         .observe()
         .subscribe(connectionStatus -> {...});
@@ -87,14 +87,14 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.1.0'
+compile 'com.keiferstone:nonet:1.2.0'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
