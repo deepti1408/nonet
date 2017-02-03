@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 1.2.1 *(2017-02-03)*
+----------------------------
+
+* Fixed banner being leaked after calling `NoNet.stopMonitoring()`.
+* Extended all `Monitor` capabilities to `Check`.
+
 Version 1.2.0 *(2017-02-03)*
 ----------------------------
 
@@ -12,7 +18,7 @@ Version 1.2.0 *(2017-02-03)*
 Version 1.1.0 *(2017-02-02)*
 ----------------------------
 
-* Calling `Monitor.stopMonitoring()` now completes the `Observable` returned from 
+* Calling `NoNet.stopMonitoring()` now completes the `Observable` returned from 
   `Monitor.observe()`, if it exists.
 * Made RxJava dependency optional. Users must now explicitly declare the RxJava dependency in order
   to use `Monitor.observe()`.

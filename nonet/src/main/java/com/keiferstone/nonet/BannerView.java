@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 
 public class BannerView extends AppCompatTextView {
     public BannerView(Context context) {
@@ -62,5 +63,9 @@ public class BannerView extends AppCompatTextView {
 
             }
         }).start();
+    }
+
+    void detachFromParent() {
+        ((ViewGroup) getParent()).removeView(this);
     }
 }

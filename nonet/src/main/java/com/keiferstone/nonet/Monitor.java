@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -16,27 +15,27 @@ import io.reactivex.ObservableOnSubscribe;
 
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class Monitor {
     private WeakReference<Context> contextRef;
     private Configuration configuration;
+    private Handler handler;
     private boolean poll;
     private Toast toast;
     private Snackbar snackbar;
     private BannerView banner;
     private Callback callback;
-    private Handler handler;
     private Observable<Integer> observable;
 
     Monitor(Context context) {
         contextRef = new WeakReference<>(context);
         configuration = new Configuration();
+        handler = new Handler();
         poll = false;
         toast = null;
         snackbar = null;
         banner = null;
         callback = null;
-        handler = new Handler();
         observable = null;
     }
 
@@ -48,6 +47,11 @@ public class Monitor {
     void stop() {
         unregisterConnectivityReceiver();
         cancelPollTask();
+        cancelToast();
+        dismissSnackbar();
+        if (banner != null) {
+            banner.detachFromParent();
+        }
         destroyObservable();
     }
 
@@ -70,12 +74,8 @@ public class Monitor {
                         banner.show();
                     }
                 } else {
-                    if (toast != null) {
-                        toast.cancel();
-                    }
-                    if (snackbar != null) {
-                        snackbar.dismiss();
-                    }
+                    cancelToast();
+                    dismissSnackbar();
                     if (banner != null) {
                         banner.hide();
                     }
@@ -95,22 +95,13 @@ public class Monitor {
         return observable;
     }
 
-    private void createObservable() {
-        if (observable == null) {
-            observable = Observable.create(new ObservableOnSubscribe<Integer>() {
-                @Override
-                public void subscribe(ObservableEmitter<Integer> e) throws Exception {
-                    callback = new ObservableCallbackInterceptor(callback, e);
-                }
-            });
+    @Nullable
+    private Context getContext() {
+        if (contextRef != null) {
+            return contextRef.get();
         }
-    }
 
-    private void destroyObservable() {
-        if (callback instanceof ObservableCallbackInterceptor) {
-            ((ObservableCallbackInterceptor) callback).stopEmitting();
-        }
-        observable = null;
+        return null;
     }
 
     private void registerConnectivityReceiver() {
@@ -140,13 +131,34 @@ public class Monitor {
         handler.removeCallbacks(pollTaskRunnable);
     }
 
-    @Nullable
-    private Context getContext() {
-        if (contextRef != null) {
-            return contextRef.get();
+    private void cancelToast() {
+        if (toast != null) {
+            toast.cancel();
         }
+    }
 
-        return null;
+    private void dismissSnackbar() {
+        if (snackbar != null) {
+            snackbar.dismiss();
+        }
+    }
+
+    private void createObservable() {
+        if (observable == null) {
+            observable = Observable.create(new ObservableOnSubscribe<Integer>() {
+                @Override
+                public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+                    callback = new ObservableCallbackInterceptor(callback, e);
+                }
+            });
+        }
+    }
+
+    private void destroyObservable() {
+        if (callback instanceof ObservableCallbackInterceptor) {
+            ((ObservableCallbackInterceptor) callback).stopEmitting();
+        }
+        observable = null;
     }
 
     public static class Builder {
