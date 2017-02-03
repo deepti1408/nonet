@@ -5,5 +5,4 @@
     android:layout_height="@dimen/default_banner_height"
     android:layout_gravity="top"
     android:text="@string/no_server_connection_message"
-    android:visibility="gone"
     style="@style/DefaultBannerStyle"/>
