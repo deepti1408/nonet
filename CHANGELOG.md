@@ -28,7 +28,8 @@ Version 1.0.8 *(2017-02-01)*
 Version 1.0.7 *(2017-01-31)*
 ----------------------------
 
- * Lowered `minSdkVersion` from 21 to 16. Updated OkHttp to 3.6.0.
+ * Lowered `minSdkVersion` from 21 to 16. 
+ * Updated OkHttp to 3.6.0.
 
 
 Version 1.0.6 *(2017-01-31)*

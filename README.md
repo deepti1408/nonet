@@ -6,7 +6,7 @@ NoNet
 
 NoNet is an Android library for monitoring network connectivity.
 
-![](https://keiferstone.com/nonet.png)
+![](https://keiferstone.com/nonet-banner.png)
 
 
 Sample Usage
