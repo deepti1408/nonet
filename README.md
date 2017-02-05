@@ -117,4 +117,3 @@ License
 
 
  [1]: http://search.maven.org/#search|gav|1|g:"com.keiferstone"%20AND%20a:"nonet"
- 
