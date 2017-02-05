@@ -87,14 +87,14 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.2.1'
+compile 'com.keiferstone:nonet:1.2.2'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.2.1</version>
+  <version>1.2.2</version>
 </dependency>
 ```
 
