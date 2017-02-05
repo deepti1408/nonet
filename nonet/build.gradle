@@ -153,6 +153,11 @@ bintray {
             desc = 'NoNet Android Library ' + project.version
             released  = new Date()
             vcsTag = project.version
+
+            mavenCentralSync {
+                user = System.getenv("BINTRAY_USER")
+                password = System.getenv("BINTRAY_PASSWORD")
+            }
         }
     }
 }
