@@ -19,9 +19,9 @@ class PollTask extends AsyncTask<Void, Void, Integer> {
     private OnPollCompletedListener listener;
     private OkHttpClient client;
 
-    static void run(Configuration configuration, OnPollCompletedListener listener) {
+    static PollTask run(Configuration configuration, OnPollCompletedListener listener) {
         PollTask pollTask = new PollTask(configuration, listener);
-        pollTask.execute();
+        return (PollTask) pollTask.execute();
     }
 
     private PollTask(Configuration configuration, OnPollCompletedListener listener) {
