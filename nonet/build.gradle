@@ -4,9 +4,6 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'nebula.provided-base'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-Properties localProperties = new Properties()
-localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 // Manifest version information major.minor.patch.hotfix
 def versionMajor = 1  // Must be in [0, 99]
 def versionMinor = 2  // Must be in [0, 99]
@@ -31,10 +28,10 @@ android {
 
     signingConfigs {
         releaseConfig {
-            storeFile file(localProperties.getProperty("store.file"))
-            storePassword localProperties.getProperty("store.password")
-            keyAlias localProperties.getProperty("key.alias")
-            keyPassword localProperties.getProperty("key.password")
+            storeFile file(System.getenv("ANDROID_KEY_STORE"))
+            storePassword System.getenv("ANDROID_KEY_STORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
         }
     }
 
@@ -136,8 +133,8 @@ artifacts {
 }
 
 bintray {
-    user = localProperties.getProperty("bintray.user")
-    key = localProperties.getProperty("bintray.apikey")
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_APIKEY")
 
     configurations = ['archives']
     pkg {
@@ -150,7 +147,7 @@ bintray {
         version {
             gpg {
                 sign = true
-                passphrase = localProperties.getProperty("bintray.gpg.password")
+                passphrase = System.getenv("BINTRAY_PASSWORD")
             }
             name = project.version
             desc = 'NoNet Android Library ' + project.version

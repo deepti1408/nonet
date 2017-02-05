@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-Properties localProperties = new Properties()
-localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -18,16 +15,16 @@ android {
 
     signingConfigs {
         releaseConfig {
-            storeFile file(localProperties.getProperty("store.file"))
-            storePassword localProperties.getProperty("store.password")
-            keyAlias localProperties.getProperty("key.alias")
-            keyPassword localProperties.getProperty("key.password")
+            storeFile file(System.getenv("ANDROID_KEY_STORE"))
+            storePassword System.getenv("ANDROID_KEY_STORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
         }
     }
 
     buildTypes {
         release {
-            signingConfig  signingConfigs.releaseConfig
+            signingConfig signingConfigs.releaseConfig
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
