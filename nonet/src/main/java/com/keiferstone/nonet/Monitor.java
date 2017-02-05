@@ -2,9 +2,11 @@ package com.keiferstone.nonet;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -319,12 +321,28 @@ public class Monitor {
         /**
          * Show a custom {@link BannerView} when there is no connectivity.
          *
-         * @param banner The {@link BannerView} to show.
+         * @param banner The {@link BannerView} to show. This banner is presumed to
+         *               already be inflated and attached to a parent.
          *
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(BannerView banner) {
             monitor.banner = banner;
+            return this;
+        }
+
+        /**
+         * Show a custom {@link BannerView} when there is no connectivity.
+         *
+         * @param bannerRes A {@link LayoutRes} containing a single {@link BannerView} to
+         *                    be inflated and shown.
+         * @param parent The parent to inflate this banner into. If null, banner will be attached
+         *               to the {@link android.app.Activity}'s layout root.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder banner(@LayoutRes int bannerRes, @Nullable ViewGroup parent) {
+            monitor.banner = BannerFactory.getBanner(monitor.getContext(), bannerRes, parent);
             return this;
         }
 

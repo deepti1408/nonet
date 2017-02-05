@@ -3,6 +3,7 @@ package com.keiferstone.nonet;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
@@ -16,29 +17,43 @@ class BannerFactory {
     }
 
     static BannerView getBanner(Context context, String message) {
-        ViewGroup root = (ViewGroup) extractView(context);
-        BannerView banner = (BannerView) LayoutInflater.from(context)
-                .inflate(R.layout.view_default_banner, root, false);
+        ViewGroup parent = (ViewGroup) extractRootView(context);;
+        BannerView banner = inflateBanner(context, R.layout.view_default_banner, parent);
         banner.setText(message);
-        if (root != null) {
-            root.addView(banner);
-        }
+        attachToParent(banner, parent);
         return banner;
     }
 
     static BannerView getBanner(Context context, @StringRes int messageRes) {
-        ViewGroup root = (ViewGroup) extractView(context);
-        BannerView banner = (BannerView) LayoutInflater.from(context)
-                .inflate(R.layout.view_default_banner, root, false);
+        ViewGroup parent = (ViewGroup) extractRootView(context);;
+        BannerView banner = inflateBanner(context, R.layout.view_default_banner, parent);
         banner.setText(messageRes);
-        if (root != null) {
-            root.addView(banner);
-        }
+        attachToParent(banner, parent);
         return banner;
     }
 
+    static BannerView getBanner(Context context, @LayoutRes int bannerRes, @Nullable ViewGroup parent) {
+        BannerView banner = inflateBanner(context, bannerRes, parent);
+        attachToParent(banner, parent);
+        return banner;
+    }
+
+    private static BannerView inflateBanner(Context context, @LayoutRes int layoutRes, @Nullable ViewGroup parent) {
+        if (parent == null) {
+            parent = (ViewGroup) extractRootView(context);;
+        }
+        return (BannerView) LayoutInflater.from(context)
+                .inflate(layoutRes, parent, false);
+    }
+
+    private static void attachToParent(BannerView banner, ViewGroup parent) {
+        if (parent != null) {
+            parent.addView(banner);
+        }
+    }
+
     @Nullable
-    private static View extractView(Context context) {
+    private static View extractRootView(Context context) {
         if (context != null && context instanceof Activity) {
             return ((Activity) context).findViewById(android.R.id.content);
         }
