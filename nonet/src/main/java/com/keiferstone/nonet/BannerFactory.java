@@ -19,7 +19,9 @@ class BannerFactory {
     static BannerView getBanner(Context context, String message) {
         ViewGroup parent = (ViewGroup) extractRootView(context);;
         BannerView banner = inflateBanner(context, R.layout.view_default_banner, parent);
-        banner.setText(message);
+        if (banner != null) {
+            banner.setText(message);
+        }
         attachToParent(banner, parent);
         return banner;
     }
@@ -27,7 +29,9 @@ class BannerFactory {
     static BannerView getBanner(Context context, @StringRes int messageRes) {
         ViewGroup parent = (ViewGroup) extractRootView(context);;
         BannerView banner = inflateBanner(context, R.layout.view_default_banner, parent);
-        banner.setText(messageRes);
+        if (banner != null) {
+            banner.setText(messageRes);
+        }
         attachToParent(banner, parent);
         return banner;
     }
@@ -39,6 +43,9 @@ class BannerFactory {
     }
 
     private static BannerView inflateBanner(Context context, @LayoutRes int layoutRes, @Nullable ViewGroup parent) {
+        if (context == null) {
+            return null;
+        }
         if (parent == null) {
             parent = (ViewGroup) extractRootView(context);;
         }
@@ -47,7 +54,7 @@ class BannerFactory {
     }
 
     private static void attachToParent(BannerView banner, ViewGroup parent) {
-        if (parent != null) {
+        if (banner != null && parent != null) {
             parent.addView(banner);
         }
     }
