@@ -3,7 +3,7 @@ NoNet
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.keiferstone/nonet/badge.svg)](http://search.maven.org/#search|ga|1|g:"com.keiferstone"%20AND%20a:"nonet")
 [![Javadoc](https://javadoc-emblem.rhcloud.com/doc/com.keiferstone/nonet/badge.svg)](http://www.javadoc.io/doc/com.keiferstone/nonet)
-![Build Status](https://build.keiferstone.com/buildStatus/icon?job=NoNet%20Develop)
+![Build Status](https://build.keiferstone.com/buildStatus/icon?job=NoNet%20Snapshot)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-NoNet-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/5219)
 
 NoNet is an Android library for monitoring network connectivity.
@@ -39,7 +39,8 @@ Set the global configuration:
 NoNet.configure()
         .endpoint("https://google.com")
         .timeout(5)
-        .pollFrequency(60);
+        .connectedPollFrequency(60)
+        .disconnectedPollFrequency(1);
 ```
 
 Make a one-off network connectivity check with a custom configuration, showing a toast if 
@@ -89,14 +90,14 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.2.2'
+compile 'com.keiferstone:nonet:1.2.3'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.2.2</version>
+  <version>1.2.3</version>
 </dependency>
 ```
 

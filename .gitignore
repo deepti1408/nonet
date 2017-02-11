@@ -2,7 +2,7 @@
 local.properties
 
 # Local gradle config file
-gradle.properties
+#gradle.properties
 
 # Eclipse project files
 .classpath
