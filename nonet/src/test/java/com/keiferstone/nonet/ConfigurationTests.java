@@ -47,8 +47,13 @@ public class ConfigurationTests {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void nonPositivePollFrequencyShouldThrowExceptionTest() throws Exception {
-        new Configuration.Builder().pollFrequency(0);
+    public void nonPositiveConnectedPollFrequencyShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().connectedPollFrequency(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nonPositiveDisconnectedPollFrequencyShouldThrowExceptionTest() throws Exception {
+        new Configuration.Builder().disconnectedPollFrequency(0);
     }
 
     @Test
@@ -60,7 +65,8 @@ public class ConfigurationTests {
         Configuration configuration = new Configuration.Builder()
                 .endpoint(endpoint)
                 .timeout(timeout)
-                .pollFrequency(pollFrequency)
+                .connectedPollFrequency(pollFrequency)
+                .disconnectedPollFrequency(pollFrequency)
                 .build();
         assertEquals(configuration.getEndpoint(), endpoint);
         assertEquals(configuration.getTimeout(), timeout);
