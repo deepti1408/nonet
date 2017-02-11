@@ -8,6 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import static com.keiferstone.nonet.ConnectionStatus.*;
 
+@SuppressWarnings("WeakerAccess")
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({CONNECTED, DISCONNECTED, UNKNOWN})
 public @interface ConnectionStatus {

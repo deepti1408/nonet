@@ -2,9 +2,11 @@ package com.keiferstone.nonet;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -27,6 +29,9 @@ public class Monitor {
     private Callback callback;
     private Observable<Integer> observable;
 
+    @ConnectionStatus
+    private int connectionStatus;
+
     Monitor(Context context) {
         contextRef = new WeakReference<>(context);
         configuration = new Configuration();
@@ -37,6 +42,7 @@ public class Monitor {
         banner = null;
         callback = null;
         observable = null;
+        connectionStatus = UNKNOWN;
     }
 
     void start() {
@@ -59,6 +65,8 @@ public class Monitor {
         PollTask.run(configuration, new PollTask.OnPollCompletedListener() {
             @Override
             public void onPollCompleted(@ConnectionStatus int connectionStatus) {
+                Monitor.this.connectionStatus = connectionStatus;
+
                 if (callback != null) {
                     callback.onConnectionEvent(connectionStatus);
                 }
@@ -80,6 +88,8 @@ public class Monitor {
                         banner.hide();
                     }
                 }
+
+                schedulePollTask();
             }
         });
     }
@@ -120,8 +130,10 @@ public class Monitor {
 
     private void schedulePollTask() {
         if (poll) {
-            int pollFrequency = configuration.getPollFrequency();
-            if (pollFrequency > 0) {
+            int pollFrequency = connectionStatus == CONNECTED
+                    ? configuration.getConnectedPollFrequency()
+                    : configuration.getDisconnectedPollFrequency();
+            if (pollFrequency > 0 && pollFrequency != Configuration.NEVER) {
                 handler.postDelayed(pollTaskRunnable, pollFrequency * 1000);
             }
         }
@@ -319,12 +331,28 @@ public class Monitor {
         /**
          * Show a custom {@link BannerView} when there is no connectivity.
          *
-         * @param banner The {@link BannerView} to show.
+         * @param banner The {@link BannerView} to show. This banner is presumed to
+         *               already be inflated and attached to a parent.
          *
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(BannerView banner) {
             monitor.banner = banner;
+            return this;
+        }
+
+        /**
+         * Show a custom {@link BannerView} when there is no connectivity.
+         *
+         * @param bannerRes A {@link LayoutRes} containing a single {@link BannerView} to
+         *                    be inflated and shown.
+         * @param parent The parent to inflate this banner into. If null, banner will be attached
+         *               to the {@link android.app.Activity}'s layout root.
+         *
+         * @return This {@link Monitor.Builder}.
+         */
+        public Builder banner(@LayoutRes int bannerRes, @Nullable ViewGroup parent) {
+            monitor.banner = BannerFactory.getBanner(monitor.getContext(), bannerRes, parent);
             return this;
         }
 
@@ -367,7 +395,6 @@ public class Monitor {
         @Override
         public void run() {
             poll();
-            schedulePollTask();
         }
     };
 }

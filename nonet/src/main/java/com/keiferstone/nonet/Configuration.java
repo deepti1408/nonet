@@ -6,16 +6,21 @@ import android.util.Patterns;
 public final class Configuration {
     static final String DEFAULT_ENDPOINT = "http://gstatic.com/generate_204";
     static final int DEFAULT_TIMEOUT = 10;
-    static final int DEFAULT_POLL_FREQUENCY = 60;
+    static final int DEFAULT_CONNECTED_POLL_FREQUENCY = 60;
+    static final int DEFAULT_DISCONNECTED_POLL_FREQUENCY = 1;
+
+    public static final int NEVER = Integer.MAX_VALUE;
 
     private String endpoint;
     private int timeout;
-    private int pollFrequency;
+    private int connectedPollFrequency;
+    private int disconnectedPollFrequency;
 
     Configuration() {
         endpoint = DEFAULT_ENDPOINT;
         timeout = DEFAULT_TIMEOUT;
-        pollFrequency = DEFAULT_POLL_FREQUENCY;
+        connectedPollFrequency = DEFAULT_CONNECTED_POLL_FREQUENCY;
+        disconnectedPollFrequency = DEFAULT_DISCONNECTED_POLL_FREQUENCY;
     }
 
     private void setEndpoint(String endpoint) {
@@ -34,11 +39,19 @@ public final class Configuration {
         }
     }
 
-    private void setPollFrequency(int pollFrequency) {
+    private void setConnectedPollFrequency(int pollFrequency) {
         if (pollFrequency <= 0) {
             throw new IllegalArgumentException("Poll frequency must be positive. Supplied poll frequency: " + pollFrequency);
         } else {
-            this.pollFrequency = pollFrequency;
+            this.connectedPollFrequency = pollFrequency;
+        }
+    }
+
+    private void setDisconnectedPollFrequency(int pollFrequency) {
+        if (pollFrequency <= 0) {
+            throw new IllegalArgumentException("Poll frequency must be positive. Supplied poll frequency: " + pollFrequency);
+        } else {
+            this.disconnectedPollFrequency = pollFrequency;
         }
     }
 
@@ -50,8 +63,12 @@ public final class Configuration {
         return timeout;
     }
 
-    int getPollFrequency() {
-        return pollFrequency;
+    int getConnectedPollFrequency() {
+        return connectedPollFrequency;
+    }
+
+    int getDisconnectedPollFrequency() {
+        return disconnectedPollFrequency;
     }
 
     public static class Builder {
@@ -90,7 +107,8 @@ public final class Configuration {
         }
 
         /**
-         * Set the poll frequency when checking connectivity. Must be positive.
+         * Set the poll frequency when checking connectivity while connected. Must be positive.
+         * Set to Configuration.NEVER to disable polling while connected.
          *
          * @param pollFrequency The frequency to poll for connectivity.
          *
@@ -98,8 +116,23 @@ public final class Configuration {
          *
          * @throws IllegalArgumentException If pollFrequency is non-positive.
          */
-        public Builder pollFrequency(int pollFrequency) {
-            configuration.setPollFrequency(pollFrequency);
+        public Builder connectedPollFrequency(int pollFrequency) {
+            configuration.setConnectedPollFrequency(pollFrequency);
+            return this;
+        }
+
+        /**
+         * Set the poll frequency when checking connectivity while disconnected. Must be positive.
+         * Set to {@code Configuration.NEVER} to disable polling while connected.
+         *
+         * @param pollFrequency The frequency to poll for connectivity.
+         *
+         * @return This {@link Configuration.Builder}.
+         *
+         * @throws IllegalArgumentException If pollFrequency is non-positive.
+         */
+        public Builder disconnectedPollFrequency(int pollFrequency) {
+            configuration.setDisconnectedPollFrequency(pollFrequency);
             return this;
         }
 
