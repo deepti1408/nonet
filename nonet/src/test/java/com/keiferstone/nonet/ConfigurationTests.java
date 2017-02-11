@@ -2,12 +2,7 @@ package com.keiferstone.nonet;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.ParameterizedRobolectricTestRunner;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,7 +15,7 @@ public class ConfigurationTests {
         Configuration configuration = new Configuration();
         assertEquals(configuration.getEndpoint(), Configuration.DEFAULT_ENDPOINT);
         assertEquals(configuration.getTimeout(), Configuration.DEFAULT_TIMEOUT);
-        assertEquals(configuration.getPollFrequency(), Configuration.DEFAULT_POLL_FREQUENCY);
+        assertEquals(configuration.getConnectedPollFrequency(), Configuration.DEFAULT_CONNECTED_POLL_FREQUENCY);
     }
 
     @Test
@@ -28,7 +23,7 @@ public class ConfigurationTests {
         Configuration configuration = new Configuration.Builder().build();
         assertEquals(configuration.getEndpoint(), Configuration.DEFAULT_ENDPOINT);
         assertEquals(configuration.getTimeout(), Configuration.DEFAULT_TIMEOUT);
-        assertEquals(configuration.getPollFrequency(), Configuration.DEFAULT_POLL_FREQUENCY);
+        assertEquals(configuration.getConnectedPollFrequency(), Configuration.DEFAULT_CONNECTED_POLL_FREQUENCY);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -69,6 +64,6 @@ public class ConfigurationTests {
                 .build();
         assertEquals(configuration.getEndpoint(), endpoint);
         assertEquals(configuration.getTimeout(), timeout);
-        assertEquals(configuration.getPollFrequency(), pollFrequency);
+        assertEquals(configuration.getConnectedPollFrequency(), pollFrequency);
     }
 }

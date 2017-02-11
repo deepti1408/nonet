@@ -13,6 +13,7 @@ public class NoNetApplication extends Application {
         NoNet.configure()
                 .endpoint("https://keiferstone.com")
                 .timeout(5)
-                .pollFrequency(60);
+                .connectedPollFrequency(60)
+                .disconnectedPollFrequency(1);
     }
 }

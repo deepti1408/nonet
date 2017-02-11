@@ -15,9 +15,10 @@ import static com.keiferstone.nonet.ConnectionStatus.*;
 class PollTask extends AsyncTask<Void, Void, Integer> {
     private static final String TAG = PollTask.class.getSimpleName();
 
+    private static OkHttpClient client;
+
     private Configuration configuration;
     private OnPollCompletedListener listener;
-    private OkHttpClient client;
 
     static PollTask run(Configuration configuration, OnPollCompletedListener listener) {
         PollTask pollTask = new PollTask(configuration, listener);
@@ -28,9 +29,11 @@ class PollTask extends AsyncTask<Void, Void, Integer> {
         this.configuration = configuration;
         this.listener = listener;
 
-        client = new OkHttpClient.Builder()
-                .connectTimeout(configuration.getTimeout(), TimeUnit.SECONDS)
-                .build();
+        if (client == null) {
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(configuration.getTimeout(), TimeUnit.SECONDS)
+                    .build();
+        }
     }
 
     @ConnectionStatus

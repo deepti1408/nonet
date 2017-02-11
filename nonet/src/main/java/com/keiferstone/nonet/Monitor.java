@@ -29,6 +29,9 @@ public class Monitor {
     private Callback callback;
     private Observable<Integer> observable;
 
+    @ConnectionStatus
+    private int connectionStatus;
+
     Monitor(Context context) {
         contextRef = new WeakReference<>(context);
         configuration = new Configuration();
@@ -39,6 +42,7 @@ public class Monitor {
         banner = null;
         callback = null;
         observable = null;
+        connectionStatus = UNKNOWN;
     }
 
     void start() {
@@ -61,6 +65,8 @@ public class Monitor {
         PollTask.run(configuration, new PollTask.OnPollCompletedListener() {
             @Override
             public void onPollCompleted(@ConnectionStatus int connectionStatus) {
+                Monitor.this.connectionStatus = connectionStatus;
+
                 if (callback != null) {
                     callback.onConnectionEvent(connectionStatus);
                 }
@@ -82,6 +88,8 @@ public class Monitor {
                         banner.hide();
                     }
                 }
+
+                schedulePollTask();
             }
         });
     }
@@ -122,8 +130,10 @@ public class Monitor {
 
     private void schedulePollTask() {
         if (poll) {
-            int pollFrequency = configuration.getPollFrequency();
-            if (pollFrequency > 0) {
+            int pollFrequency = connectionStatus == CONNECTED
+                    ? configuration.getConnectedPollFrequency()
+                    : configuration.getDisconnectedPollFrequency();
+            if (pollFrequency > 0 && pollFrequency != Configuration.NEVER) {
                 handler.postDelayed(pollTaskRunnable, pollFrequency * 1000);
             }
         }
@@ -385,7 +395,6 @@ public class Monitor {
         @Override
         public void run() {
             poll();
-            schedulePollTask();
         }
     };
 }
