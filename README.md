@@ -39,7 +39,8 @@ Set the global configuration:
 NoNet.configure()
         .endpoint("https://google.com")
         .timeout(5)
-        .pollFrequency(60);
+        .connectedPollFrequency(60)
+        .disconnectedPollFrequency(1);
 ```
 
 Make a one-off network connectivity check with a custom configuration, showing a toast if 
@@ -89,14 +90,14 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.2.2'
+compile 'com.keiferstone:nonet:1.2.3'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.2.2</version>
+  <version>1.2.3</version>
 </dependency>
 ```
 
