@@ -48,7 +48,8 @@ public class FactoryTests {
         Snackbar snackbar = SnackbarFactory.getSnackbar(null);
         assertNull(snackbar);
 
-        /* TODO: Fix snackbar tests
+        /* TODO: Fix Snackbars throwing java.lang.IllegalArgumentException:
+         * You need to use a Theme.AppCompat theme (or descendant) with the design library.
         snackbar = SnackbarFactory.getSnackbar(activity);
         assertNotNull(snackbar);
 
