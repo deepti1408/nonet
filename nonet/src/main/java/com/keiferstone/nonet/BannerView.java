@@ -12,21 +12,15 @@ import android.view.ViewGroup;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.keiferstone.nonet.BannerView.State.HIDDEN;
-import static com.keiferstone.nonet.BannerView.State.HIDING;
-import static com.keiferstone.nonet.BannerView.State.SHOWING;
-import static com.keiferstone.nonet.BannerView.State.SHOWN;
-
 
 public class BannerView extends AppCompatTextView {
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({SHOWN, SHOWING, HIDDEN, HIDING})
-    @interface State {
-        int SHOWN = 100;
-        int SHOWING = 101;
-        int HIDDEN = 102;
-        int HIDING = 103;
-    }
+    @interface State {}
+    static final int SHOWN = 100;
+    static final int SHOWING = 101;
+    static final int HIDDEN = 102;
+    static final int HIDING = 103;
 
     @BannerView.State
     private int state;
