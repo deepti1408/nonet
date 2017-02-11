@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+
+Version 1.2.3 *(2017-02-10)*
+----------------------------
+
+* Banner fixes and enhancements.
+* Added separate poll frequency configurations for connected vs disconnected.
+
 Version 1.2.2 *(2017-02-05)*
 ----------------------------
 
