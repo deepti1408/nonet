@@ -38,6 +38,7 @@ public final class NoNet {
      */
     public static Monitor.Builder monitor(Context context) {
         instantiate();
+        stopMonitoring();
         Monitor.Builder builder = new Monitor.Builder(context);
         if (instance.configuration != null) {
             builder.configure(instance.configuration);
