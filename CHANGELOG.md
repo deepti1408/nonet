@@ -2,6 +2,11 @@ Change Log
 ==========
 
 
+Version 1.2.4 *(2017-02-14)*
+----------------------------
+
+* Stop existing monitor before starting a new one.
+
 Version 1.2.3 *(2017-02-10)*
 ----------------------------
 
