@@ -110,8 +110,4 @@ public class BannerView extends AppCompatTextView {
                     }).start();
         }
     }
-
-    void detachFromParent() {
-        ((ViewGroup) getParent()).removeView(this);
-    }
 }

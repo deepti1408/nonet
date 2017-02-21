@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 2.0.0 *(2017-02-21)*
+----------------------------
+
+* Refactored library to manage monitor lifecycles internally. 
+* Method NoNet.stopMonitoring() has been removed.
+* Banner fixes.
 
 Version 1.2.4 *(2017-02-14)*
 ----------------------------

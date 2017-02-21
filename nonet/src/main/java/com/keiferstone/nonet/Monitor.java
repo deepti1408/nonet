@@ -25,7 +25,7 @@ public class Monitor {
     private boolean poll;
     private Toast toast;
     private Snackbar snackbar;
-    private BannerView banner;
+    private WeakReference<BannerView> bannerRef;
     private Callback callback;
     private Observable<Integer> observable;
 
@@ -33,16 +33,16 @@ public class Monitor {
     private int connectionStatus;
 
     Monitor(Context context) {
-        contextRef = new WeakReference<>(context);
-        configuration = new Configuration();
-        handler = new Handler();
-        poll = false;
-        toast = null;
-        snackbar = null;
-        banner = null;
-        callback = null;
-        observable = null;
-        connectionStatus = UNKNOWN;
+        this.contextRef = new WeakReference<>(context);
+        this.configuration = new Configuration();
+        this.handler = new Handler();
+        this.poll = false;
+        this.toast = null;
+        this.snackbar = null;
+        this.bannerRef = new WeakReference<>(null);
+        this.callback = null;
+        this.observable = null;
+        this.connectionStatus = UNKNOWN;
     }
 
     void start() {
@@ -55,9 +55,6 @@ public class Monitor {
         cancelPollTask();
         cancelToast();
         dismissSnackbar();
-        if (banner != null) {
-            banner.detachFromParent();
-        }
         destroyObservable();
     }
 
@@ -71,6 +68,7 @@ public class Monitor {
                     callback.onConnectionEvent(connectionStatus);
                 }
 
+                BannerView banner = getBanner();
                 if (connectionStatus == DISCONNECTED) {
                     if (toast != null) {
                         toast.show();
@@ -106,12 +104,12 @@ public class Monitor {
     }
 
     @Nullable
-    private Context getContext() {
-        if (contextRef != null) {
-            return contextRef.get();
-        }
+    Context getContext() {
+        return contextRef.get();
+    }
 
-        return null;
+    void setContext(Context context) {
+        this.contextRef = new WeakReference<>(context);
     }
 
     private void registerConnectivityReceiver() {
@@ -155,6 +153,11 @@ public class Monitor {
         }
     }
 
+    @Nullable
+    private BannerView getBanner() {
+        return bannerRef.get();
+    }
+
     private void createObservable() {
         if (observable == null) {
             observable = Observable.create(new ObservableOnSubscribe<Integer>() {
@@ -175,6 +178,10 @@ public class Monitor {
 
     public static class Builder {
         Monitor monitor;
+
+        Builder(Check check) {
+            monitor = check;
+        }
 
         Builder(Context context) {
             monitor = new Monitor(context);
@@ -300,7 +307,7 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner() {
-            monitor.banner = BannerFactory.getBanner(monitor.getContext());
+            monitor.bannerRef = new WeakReference<>(BannerFactory.getBanner(monitor.getContext()));
             return this;
         }
 
@@ -312,7 +319,7 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(String message) {
-            monitor.banner = BannerFactory.getBanner(monitor.getContext(), message);
+            monitor.bannerRef = new WeakReference<>(BannerFactory.getBanner(monitor.getContext(), message));
             return this;
         }
 
@@ -324,7 +331,7 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(@StringRes int messageRes) {
-            monitor.banner = BannerFactory.getBanner(monitor.getContext(), messageRes);
+            monitor.bannerRef = new WeakReference<>(BannerFactory.getBanner(monitor.getContext(), messageRes));
             return this;
         }
 
@@ -337,7 +344,7 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(BannerView banner) {
-            monitor.banner = banner;
+            monitor.bannerRef = new WeakReference<>(banner);
             return this;
         }
 
@@ -352,7 +359,7 @@ public class Monitor {
          * @return This {@link Monitor.Builder}.
          */
         public Builder banner(@LayoutRes int bannerRes, @Nullable ViewGroup parent) {
-            monitor.banner = BannerFactory.getBanner(monitor.getContext(), bannerRes, parent);
+            monitor.bannerRef = new WeakReference<>(BannerFactory.getBanner(monitor.getContext(), bannerRes, parent));
             return this;
         }
 

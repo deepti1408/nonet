@@ -26,8 +26,9 @@ public class Check extends Monitor {
     }
 
     public static class Builder extends Monitor.Builder {
+
         Builder(Context context) {
-            super(context);
+            super(new Check(context));
         }
 
         @Override
@@ -124,6 +125,12 @@ public class Check extends Monitor {
         public Builder callback(Callback callback) {
             super.callback(callback);
             return this;
+        }
+
+        @Override
+        public Check start() {
+            monitor.start();
+            return (Check) monitor;
         }
     }
 }

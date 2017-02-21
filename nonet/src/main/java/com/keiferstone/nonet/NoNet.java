@@ -1,5 +1,7 @@
 package com.keiferstone.nonet;
 
+import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 
 /**
@@ -10,9 +12,11 @@ public final class NoNet {
     private static NoNet instance = null;
 
     private Configuration configuration;
-    private Monitor monitor;
+    private MonitorManager monitorManager;
 
-    private NoNet() {}
+    private NoNet() {
+        monitorManager = new MonitorManager();
+    }
 
     /**
      * Set the global configuration.
@@ -30,28 +34,33 @@ public final class NoNet {
      * Start monitoring network connectivity.
      *
      * @param context Context for listening to connectivity events and displaying notifications.
-     *                Must be an instance of {@link android.app.Activity} for
-     *                {@link Monitor.Builder#snackbar()} to work. Don't forget to call
-     *                {@link #stopMonitoring()} to stop monitoring.
+     *                Must be an instance of {@link Activity} for
+     *                {@link Monitor.Builder#snackbar()} or {@link BannerView}to work.
      *
      * @return A {@link Monitor.Builder}.
      */
     public static Monitor.Builder monitor(Context context) {
         instantiate();
-        stopMonitoring();
         Monitor.Builder builder = new Monitor.Builder(context);
         if (instance.configuration != null) {
             builder.configure(instance.configuration);
         }
-        instance.monitor = builder.monitor;
+        if (context != null) {
+            if (context instanceof Activity) {
+                instance.monitorManager.attachToApplication(((Activity) context).getApplication());
+            } else if (context instanceof Service) {
+                instance.monitorManager.attachToApplication(((Service) context).getApplication());
+            }
+        }
+        instance.monitorManager.registerMonitor(builder.monitor);
         return builder;
     }
 
     /**
      * Make a single check for network connectivity.
      *
-     * @param context Context for displaying notifications. Must be an instance of
-     *                {@link android.app.Activity} for {@link Check.Builder#snackbar()}
+     * @param context Check for displaying notifications. Must be an instance of
+     *                {@link Activity} for {@link Check.Builder#snackbar()}
      *                to work.
      *
      * @return A {@link Check.Builder}.
@@ -66,13 +75,14 @@ public final class NoNet {
     }
 
     /**
-     * Stop monitoring network connectivity.
+     * Only call this method if you want to destroy all running {@link Monitor}s (i.e. Calling this
+     * in one {@link Activity} will destroy {@link Monitor}s in all activities.)
+     * <p>
+     * Normal usage does not require calling this method.
      */
-    public static void stopMonitoring() {
-        instantiate();
-        if (instance.monitor != null) {
-            instance.monitor.stop();
-            instance.monitor = null;
+    public static void destroy() {
+        if (instance != null) {
+            instance.monitorManager.destroy();
         }
     }
 

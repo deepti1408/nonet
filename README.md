@@ -17,20 +17,13 @@ Sample Usage
 Monitor for network connectivity events and show a snackbar when disconnected:
 ```java
 @Override
-protected void onStart() {
-    super.onStart();
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     ...
     NoNet.monitor(this)
             .poll()
             .snackbar()
             .start();
-}
-
-@Override
-protected void onStop() {
-    super.onStop();
-
-    NoNet.stopMonitoring();
 }
 ```
 
