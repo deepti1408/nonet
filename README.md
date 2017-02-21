@@ -83,20 +83,22 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:1.2.4'
+compile 'com.keiferstone:nonet:2.0.0'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>1.2.4</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
 
 License
 --------
+
+    Copyright 2017 Keifer Stone
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
