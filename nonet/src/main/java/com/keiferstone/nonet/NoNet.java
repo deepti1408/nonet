@@ -34,7 +34,7 @@ public final class NoNet {
      * Start monitoring network connectivity.
      *
      * @param context Context for listening to connectivity events and displaying notifications.
-     *                Must be an instance of {@link android.app.Activity} for
+     *                Must be an instance of {@link Activity} for
      *                {@link Monitor.Builder#snackbar()} or {@link BannerView}to work.
      *
      * @return A {@link Monitor.Builder}.
@@ -60,7 +60,7 @@ public final class NoNet {
      * Make a single check for network connectivity.
      *
      * @param context Check for displaying notifications. Must be an instance of
-     *                {@link Context} for {@link Check.Builder#snackbar()}
+     *                {@link Activity} for {@link Check.Builder#snackbar()}
      *                to work.
      *
      * @return A {@link Check.Builder}.
