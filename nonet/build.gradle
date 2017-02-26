@@ -28,10 +28,10 @@ android {
 
     signingConfigs {
         releaseConfig {
-            storeFile file(System.getenv("ANDROID_KEY_STORE"))
-            storePassword System.getenv("ANDROID_KEY_STORE_PASSWORD")
-            keyAlias System.getenv("ANDROID_KEY_ALIAS")
-            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+            storeFile file(project.ext.keystorePath)
+            storePassword project.ext.keystorePassword
+            keyAlias project.ext.keyAlias
+            keyPassword project.ext.keyPassword
         }
     }
 
