@@ -1,16 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-Properties properties = new Properties()
-File propFile = project.rootProject.file('keystore.properties')
-if (propFile != null && propFile.exists()) properties.load(propFile.newDataInputStream())
-project.ext {
-    keystorePath = properties.getProperty('keystore.path')
-    keystorePassword = properties.getProperty('keystore.password')
-    keyAlias = properties.getProperty('key.alias')
-    keyPassword = properties.getProperty('key.password')
-}
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"

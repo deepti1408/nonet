@@ -4,6 +4,7 @@ buildscript {
     repositories {
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0-rc1'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
@@ -17,6 +18,17 @@ buildscript {
 }
 
 allprojects {
+    Properties properties = new Properties()
+    File propFile = project.rootProject.file('keystore.properties')
+    if (propFile != null && propFile.exists()) properties.load(propFile.newDataInputStream())
+
+    project.ext {
+        keystorePath = properties.getProperty('keystore.path')
+        keystorePassword = properties.getProperty('keystore.password')
+        keyAlias = properties.getProperty('key.alias')
+        keyPassword = properties.getProperty('key.password')
+    }
+
     repositories {
         mavenLocal()
         jcenter()
