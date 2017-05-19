@@ -49,7 +49,6 @@ class PollTask extends AsyncTask<Void, Void, Integer> {
         try {
             response = client.newCall(request).execute();
         } catch (IOException e) {
-            e.printStackTrace();
             return DISCONNECTED;
         }
 

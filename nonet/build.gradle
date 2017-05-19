@@ -7,7 +7,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 // Manifest version information major.minor.patch.hotfix
 def versionMajor = 2  // Must be in [0, 99]
 def versionMinor = 0  // Must be in [0, 99]
-def versionPatch = 0  // Must be in [0, 99]
+def versionPatch = 1  // Must be in [0, 99]
 def versionHotfix = 0 // Must be in [0, 9]
 
 project.group = "com.keiferstone"
@@ -58,12 +58,12 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.2.2"
 
     // Android support libraries
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
 
     // Third-party libraries
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
-    provided 'io.reactivex.rxjava2:rxjava:2.0.5'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    provided 'io.reactivex.rxjava2:rxjava:2.0.8'
 }
 
 def siteUrl = 'https://github.com/keiferstone/nonet'

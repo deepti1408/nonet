@@ -45,6 +45,24 @@ public class Monitor {
         this.connectionStatus = UNKNOWN;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Monitor)) return false;
+
+        Context context = getContext();
+        if (context == null) return super.equals(o);
+
+        Monitor monitor = (Monitor) o;
+        return context.equals(monitor.getContext());
+    }
+
+    @Override
+    public int hashCode() {
+        Context context = getContext();
+        return context != null ? context.hashCode() : super.hashCode();
+    }
+
     void start() {
         registerConnectivityReceiver();
         schedulePollTask();
