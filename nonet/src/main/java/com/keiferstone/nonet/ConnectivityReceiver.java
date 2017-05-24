@@ -31,8 +31,6 @@ public abstract class ConnectivityReceiver extends BroadcastReceiver {
                     }
                 }
             }
-
-            onConnectivityChanged(UNKNOWN);
         }
     }
 

@@ -124,7 +124,6 @@ public class Monitor {
     }
 
     private void registerConnectivityReceiver() {
-        Log.d(TAG, "registerConnectivityReceiver");
         Context context = getContext();
         if (context != null) {
             context.registerReceiver(connectivityReceiver, ConnectivityReceiver.getIntentFilter());
@@ -132,7 +131,6 @@ public class Monitor {
     }
 
     private void unregisterConnectivityReceiver() {
-        Log.d(TAG, "unregisterConnectivityReceiver");
         Context context = getContext();
         if (context != null) {
             context.unregisterReceiver(connectivityReceiver);

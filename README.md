@@ -83,14 +83,14 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:2.0.2'
+compile 'com.keiferstone:nonet:2.0.3'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>2.0.2</version>
+  <version>2.0.3</version>
 </dependency>
 ```
 
