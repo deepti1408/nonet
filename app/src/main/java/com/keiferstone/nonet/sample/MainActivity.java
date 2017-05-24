@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
                 .poll()
                 .banner()
                 .snackbar()
-                .start()
                 .observe()
                 .subscribe(new Consumer<Integer>() {
                     @Override
