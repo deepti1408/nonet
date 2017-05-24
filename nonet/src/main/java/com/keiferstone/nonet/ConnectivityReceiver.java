@@ -29,8 +29,11 @@ public abstract class ConnectivityReceiver extends BroadcastReceiver {
                     } else {
                         onConnectivityChanged(DISCONNECTED);
                     }
+                    return;
                 }
             }
+
+            onConnectivityChanged(UNKNOWN);
         }
     }
 
