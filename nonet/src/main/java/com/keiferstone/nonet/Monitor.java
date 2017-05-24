@@ -3,9 +3,11 @@ package com.keiferstone.nonet;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -19,6 +21,8 @@ import static com.keiferstone.nonet.ConnectionStatus.*;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Monitor {
+    private static final String TAG = Monitor.class.getSimpleName();
+
     private WeakReference<Context> contextRef;
     private Configuration configuration;
     private Handler handler;
@@ -110,17 +114,6 @@ public class Monitor {
         });
     }
 
-    /**
-     * Observe this {@link Monitor} for connectivity events. When there is a connectivity event,
-     * the {@link ConnectionStatus} will be emitted to {@link io.reactivex.Observer#onNext(Object)}.
-     *
-     * @return An {@link Observable} that emits a {@link ConnectionStatus} on connectivity events.
-     */
-    public Observable<Integer> observe() {
-        createObservable();
-        return observable;
-    }
-
     @Nullable
     Context getContext() {
         return contextRef.get();
@@ -131,6 +124,7 @@ public class Monitor {
     }
 
     private void registerConnectivityReceiver() {
+        Log.d(TAG, "registerConnectivityReceiver");
         Context context = getContext();
         if (context != null) {
             context.registerReceiver(connectivityReceiver, ConnectivityReceiver.getIntentFilter());
@@ -138,6 +132,7 @@ public class Monitor {
     }
 
     private void unregisterConnectivityReceiver() {
+        Log.d(TAG, "unregisterConnectivityReceiver");
         Context context = getContext();
         if (context != null) {
             context.unregisterReceiver(connectivityReceiver);
@@ -176,7 +171,8 @@ public class Monitor {
         return bannerRef.get();
     }
 
-    private void createObservable() {
+    @NonNull
+    private Observable<Integer> createObservable() {
         if (observable == null) {
             observable = Observable.create(new ObservableOnSubscribe<Integer>() {
                 @Override
@@ -185,6 +181,8 @@ public class Monitor {
                 }
             });
         }
+
+        return observable;
     }
 
     private void destroyObservable() {
@@ -394,13 +392,13 @@ public class Monitor {
         }
 
         /**
-         * Start monitoring network connectivity.
+         * Observe this {@link Monitor} for connectivity events. When there is a connectivity event,
+         * the {@link ConnectionStatus} will be emitted to {@link io.reactivex.Observer#onNext(Object)}.
          *
-         * @return The {@link Monitor}
+         * @return An {@link Observable} that emits a {@link ConnectionStatus} on connectivity events.
          */
-        public Monitor start() {
-            monitor.start();
-            return monitor;
+        public Observable<Integer> observe() {
+            return monitor.createObservable();
         }
     }
 
