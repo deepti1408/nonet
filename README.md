@@ -22,8 +22,7 @@ protected void onCreate(Bundle savedInstanceState) {
     ...
     NoNet.monitor(this)
             .poll()
-            .snackbar()
-            .start();
+            .snackbar();
 }
 ```
 
@@ -59,7 +58,6 @@ Create an Observable from a Monitor that emits connectivity events:
 ```java
 NoNet.monitor(this)
         .banner()
-        .start()
         .observe()
         .subscribe(connectionStatus -> {...});
 ```
