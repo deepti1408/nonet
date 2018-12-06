@@ -8,6 +8,7 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 
+@Suppress("unused")
 object NoNet {
 
     /**
@@ -69,7 +70,6 @@ object NoNet {
         lifecycleOwner.lifecycle.addObserver(ConnectionObserver(config, lifecycleOwner, callback))
     }
 
-    @Suppress("unused")
     private class ConnectionObserver(private val config: Config,
                                      private val lifecycleOwner: LifecycleOwner,
                                      private val callback: (Boolean) -> Unit) : LifecycleObserver {
@@ -77,11 +77,13 @@ object NoNet {
         private val runnable = object : Runnable {
             override fun run() {
                 isConnected(config) {
+                    callback(it)
                     val pollInterval =
                             if (it) config.connectedPollInterval
                             else config.disconnectedPollInterval
-                    callback(it)
-                    handler.postDelayed(this, pollInterval * 1000)
+                    if (pollInterval > 0) {
+                        handler.postDelayed(this, pollInterval * 1000)
+                    }
                 }
             }
         }
