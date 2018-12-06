@@ -7,13 +7,13 @@ apply plugin: 'nebula.provided-base'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 // Manifest version information major.minor.patch.hotfix
-def versionMajor = 2  // Must be in [0, 99]
+def versionMajor = 3  // Must be in [0, 99]
 def versionMinor = 0  // Must be in [0, 99]
-def versionPatch = 4  // Must be in [0, 99]
+def versionPatch = 0  // Must be in [0, 99]
 def versionHotfix = 0 // Must be in [0, 9]
 
 project.group = "com.keiferstone"
-project.version = "${versionMajor}.${versionMinor}.${versionPatch}"
+project.version = "${versionMajor}.${versionMinor}.${versionPatch}-alpha01"
 
 android {
     compileSdkVersion 28
