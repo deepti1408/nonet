@@ -1,5 +1,7 @@
 package com.keiferstone.nonet
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.*
@@ -10,6 +12,14 @@ import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 object NoNet {
+
+    /**
+     * Check the system [ConnectivityManager] to determine if we have an active network connection.
+     */
+    fun hasConnection(context: Context): Boolean {
+        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return cm.activeNetworkInfo?.isConnected == true
+    }
 
     /**
      * Check if we have a network connection.
