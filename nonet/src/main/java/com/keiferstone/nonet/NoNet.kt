@@ -62,10 +62,10 @@ object NoNet {
     /**
      * Monitor network connectivity as long as the provided [lifecycleOwner] is resumed.
      *
-     * @param config An optional custom configuration
      * @param lifecycleOwner The [LifecycleOwner] to attach to
+     * @param config An optional custom configuration
      */
-    fun monitorConnection(config: Config = Config(), lifecycleOwner: LifecycleOwner, callback: (Boolean) -> Unit) {
+    fun monitorConnection(lifecycleOwner: LifecycleOwner, config: Config = Config(), callback: (Boolean) -> Unit) {
         lifecycleOwner.lifecycle.addObserver(ConnectionObserver(config, lifecycleOwner, callback))
     }
 

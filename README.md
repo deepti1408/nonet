@@ -14,7 +14,7 @@ Sample Usage
 Monitor network connectivity:
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
-    NoNet.monitorConnection(config, this) {
+    NoNet.monitorConnection(this) {
         Log.d("NoNet", if (it) "Connected" else "Not connected")
     }
 }
@@ -22,7 +22,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 Check network connectivity:
 ```kotlin
-NoNet.isConnected(config) {
+NoNet.isConnected {
     Log.d("NoNet", if (it) "Connected" else "Not connected")
 }
 ```
@@ -34,6 +34,9 @@ val config = config {
     timeout = 1
     connectedPollInterval = 10
     disconnectedPollInterval = 2
+}
+NoNet.isConnected(config) {
+    Log.d("NoNet", if (it) "Connected" else "Not connected")
 }
 ```
 

@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
             disconnectedPollInterval = 2
         }
 
-        NoNet.isConnected(config) {
+        NoNet.isConnected {
             Log.d("NoNet", if (it) "Connected" else "Not connected")
         }
 
-        NoNet.monitorConnection(config, this) {
+        NoNet.monitorConnection(this, config) {
             Log.d("NoNet Monitor", if (it) "Connected" else "Not connected")
         }
     }
