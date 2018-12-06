@@ -45,7 +45,7 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:3.0.0-alpha03'
+implementation 'com.keiferstone:nonet:3.0.0-alpha03'
 ```
 or Maven:
 ```xml
