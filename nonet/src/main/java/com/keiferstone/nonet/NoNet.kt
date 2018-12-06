@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit
 
 object NoNet {
 
+    /**
+     * Check if we have a network connection.
+     *
+     * @param config An optional custom configuration
+     */
     suspend fun isConnected(config: Config = Config()): Boolean {
         return try {
             val request = Request.Builder()
@@ -28,6 +33,11 @@ object NoNet {
         }
     }
 
+    /**
+     * Check if we have a network connection.
+     *
+     * @param config An optional custom configuration
+     */
     fun isConnected(config: Config = Config(), callback: (Boolean) -> Unit) {
         val request = Request.Builder()
                 .url(config.url)
@@ -48,10 +58,18 @@ object NoNet {
         })
     }
 
+
+    /**
+     * Monitor network connectivity as long as the provided [lifecycleOwner] is resumed.
+     *
+     * @param config An optional custom configuration
+     * @param lifecycleOwner The [LifecycleOwner] to attach to
+     */
     fun monitorConnection(config: Config = Config(), lifecycleOwner: LifecycleOwner, callback: (Boolean) -> Unit) {
         lifecycleOwner.lifecycle.addObserver(ConnectionObserver(config, lifecycleOwner, callback))
     }
 
+    @Suppress("unused")
     private class ConnectionObserver(private val config: Config,
                                      private val lifecycleOwner: LifecycleOwner,
                                      private val callback: (Boolean) -> Unit) : LifecycleObserver {
