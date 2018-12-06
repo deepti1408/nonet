@@ -77,7 +77,10 @@ object NoNet {
         private val runnable = object : Runnable {
             override fun run() {
                 isConnected(config) {
-                    callback(it)
+                    if (config.callbackOnlyIfChanged) {
+                        if (isConnected != it) callback(it)
+                    } else callback(it)
+                    isConnected = it
                     val pollInterval =
                             if (it) config.connectedPollInterval
                             else config.disconnectedPollInterval
@@ -87,6 +90,7 @@ object NoNet {
                 }
             }
         }
+        private var isConnected: Boolean? = null
 
         @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
         fun startMonitoring() {

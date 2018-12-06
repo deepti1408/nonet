@@ -16,7 +16,11 @@ data class Config(
         /**
          * The interval in seconds between requests to [url] when not connected
          */
-        var disconnectedPollInterval: Long = 5)
+        var disconnectedPollInterval: Long = 5,
+        /**
+         * A flag to skip callbacks if connectivity has not changed
+         */
+        var callbackOnlyIfChanged: Boolean = false)
 
 fun config(init: Config.() -> Unit): Config {
     val config = Config()
