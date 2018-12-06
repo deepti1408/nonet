@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'nebula.provided-base'
@@ -14,12 +16,11 @@ project.group = "com.keiferstone"
 project.version = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode versionMajor * 100000 + versionMinor * 1000 + versionPatch * 10 + versionHotfix
         versionName project.version
 
@@ -46,24 +47,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
 
     // Instrumentation tests
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
     // Unit tests
-    testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.2.2"
-
-    // Android support libraries
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-
-    // Third-party libraries
-    compile 'com.squareup.okhttp3:okhttp:3.7.0'
-    provided 'io.reactivex.rxjava2:rxjava:2.0.8'
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.robolectric:robolectric:4.0.2"
 }
 
 def siteUrl = 'https://github.com/keiferstone/nonet'
@@ -160,4 +156,7 @@ bintray {
             }
         }
     }
+}
+repositories {
+    mavenCentral()
 }
