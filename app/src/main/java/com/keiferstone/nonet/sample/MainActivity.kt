@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         NoNet.isConnected(config) {
-            Log.d("NoNet", "isConnected = $it")
+            Log.d("NoNet", if (it) "Connected" else "Not connected")
         }
 
         NoNet.monitorConnection(config, this) {
-            Log.d("NoNet", "monitorConnection = $it")
+            Log.d("NoNet Monitor", if (it) "Connected" else "Not connected")
         }
     }
 }

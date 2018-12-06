@@ -8,89 +8,48 @@ NoNet
 
 NoNet is an Android library for monitoring network connectivity.
 
-![](https://keiferstone.com/nonet/nonet-banner.png)
-
-
 Sample Usage
 -----
 
-Monitor for network connectivity events and show a snackbar when disconnected:
-```java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    ...
-    NoNet.monitor(this)
-            .poll()
-            .snackbar()
-            .start();
+Monitor network connectivity:
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    NoNet.monitorConnection(config, this) {
+        Log.d("NoNet", if (it) "Connected" else "Not connected")
+    }
 }
 ```
 
-Set the global configuration:
-```java
-NoNet.configure()
-        .endpoint("https://google.com")
-        .timeout(5)
-        .connectedPollFrequency(60)
-        .disconnectedPollFrequency(1);
+Check network connectivity:
+```kotlin
+NoNet.isConnected(config) {
+    Log.d("NoNet", if (it) "Connected" else "Not connected")
+}
 ```
 
-Make a one-off network connectivity check with a custom configuration, showing a toast if 
-disconnected, and provide a callback to be invoked on result:
-```java
-NoNet.check(this)
-        .configure(configuration)
-        .toast()
-        .callback(new Monitor.Callback() {
-            @Override
-            public void onConnectionChanged(int connectionStatus) {
-                // TODO
-            }
-        })
-        .start();
+Provide a custom configuration for checking network connectivity:
+```kotlin
+val config = config {
+    url = "https://google.com"
+    timeout = 1
+    connectedPollInterval = 10
+    disconnectedPollInterval = 2
+}
 ```
-
-
-RxJava Support
---------------
-
-Create an Observable from a Monitor that emits connectivity events:
-```java
-NoNet.monitor(this)
-        .banner()
-        .start()
-        .observe()
-        .subscribe(connectionStatus -> {...});
-```
-
-**Note: Calling `Monitor.observe()` without declaring the io.reactivex.rxjava2:rxjava dependency in
-your `build.gradle` will cause errors at compile-time.**
-
-
-ProGuard
---------
-
-If you're using ProGuard, you may need to add these lines to your `proguard-rules.pro`:
-```
--dontwarn io.reactivex.**
--dontwarn okio.**
-```
-
 
 Download
 --------
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-compile 'com.keiferstone:nonet:2.0.4'
+compile 'com.keiferstone:nonet:3.0.0-alpha01'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>2.0.4</version>
+  <version>3.0.0-alpha01</version>
 </dependency>
 ```
 
@@ -98,7 +57,7 @@ or Maven:
 License
 --------
 
-    Copyright 2017 Keifer Stone
+    Copyright 2018 Keifer Stone
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

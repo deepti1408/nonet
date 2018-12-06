@@ -1,9 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'nebula.provided-base'
+apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.getkeepsafe.dexcount'
 
 // Manifest version information major.minor.patch.hotfix
@@ -62,101 +60,11 @@ dependencies {
     testImplementation "org.robolectric:robolectric:4.0.2"
 }
 
-def siteUrl = 'https://github.com/keiferstone/nonet'
-def gitUrl = 'https://github.com/keiferstone/nonet.git'
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-
-                name project.group + ":nonet"
-                description = 'An Android library for monitoring network connectivity'
-                url siteUrl
-
-                groupId = project.group
-                artifactId = "nonet"
-                version = project.version
-
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'keiferstone'
-                        name 'Keifer Stone'
-                        email 'keiferstone@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-afterEvaluate {
-    javadoc.classpath += files(android.libraryVariants.collect { variant ->
-        variant.javaCompile.classpath.files
-    })
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_APIKEY")
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = project.group + ":nonet"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-        version {
-            gpg {
-                sign = true
-                passphrase = System.getenv("BINTRAY_PASSWORD")
-            }
-            name = project.version
-            desc = 'NoNet Android Library ' + project.version
-            released  = new Date()
-            vcsTag = project.version
-
-            mavenCentralSync {
-                user = System.getenv("BINTRAY_USER")
-                password = System.getenv("BINTRAY_PASSWORD")
-            }
-        }
-    }
-}
-repositories {
-    mavenCentral()
+publish {
+    userOrg = 'keiferstone'
+    groupId = project.group
+    artifactId = 'nonet'
+    publishVersion = project.version
+    desc = 'An Android library for monitoring network connectivity'
+    website = 'https://github.com/keiferstone/nonet'
 }
