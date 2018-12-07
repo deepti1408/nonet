@@ -45,14 +45,14 @@ Download
 
 Download [the latest AAR][1] or grab via Gradle:
 ```groovy
-implementation 'com.keiferstone:nonet:3.0.0-alpha08'
+implementation 'com.keiferstone:nonet:3.0.0-alpha09'
 ```
 or Maven:
 ```xml
 <dependency>
   <groupId>com.keiferstone</groupId>
   <artifactId>nonet</artifactId>
-  <version>3.0.0-alpha08</version>
+  <version>3.0.0-alpha09</version>
 </dependency>
 ```
 

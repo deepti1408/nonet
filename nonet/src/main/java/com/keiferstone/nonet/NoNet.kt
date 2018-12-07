@@ -144,7 +144,7 @@ object NoNet {
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         fun stopMonitoring() {
             Log.d(NoNet.javaClass.name, "Stopping connection monitoring")
-            connectivityManager.registerNetworkCallback(request, networkCallback)
+            connectivityManager.unregisterNetworkCallback(networkCallback)
             handler.removeCallbacks(runnable)
         }
 
