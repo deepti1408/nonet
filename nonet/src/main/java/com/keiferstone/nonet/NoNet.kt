@@ -2,6 +2,9 @@ package com.keiferstone.nonet
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Handler
 import android.util.Log
 import androidx.lifecycle.*
@@ -12,13 +15,18 @@ import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
 object NoNet {
+    private lateinit var connectivityManager: ConnectivityManager
+    private lateinit var networkCallback: ConnectivityManager.NetworkCallback
+
+    fun init(context: Context) {
+        connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
     /**
      * Check the system [ConnectivityManager] to determine if we have an active network connection.
      */
-    fun hasConnection(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return cm.activeNetworkInfo?.isConnected == true
+    fun hasConnection(): Boolean {
+        return connectivityManager.activeNetworkInfo?.isConnected == true
     }
 
     /**
@@ -100,17 +108,43 @@ object NoNet {
                 }
             }
         }
+        private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                Log.d(NoNet.javaClass.name, "Network available")
+                handler.removeCallbacks(runnable)
+                handler.post(runnable)
+            }
+
+            override fun onLost(network: Network?) {
+                Log.d(NoNet.javaClass.name, "Network lost")
+                handler.removeCallbacks(runnable)
+                handler.post(runnable)
+            }
+
+            override fun onUnavailable() {
+                Log.d(NoNet.javaClass.name, "Network unavailable")
+                handler.removeCallbacks(runnable)
+                handler.post(runnable)
+            }
+        }
+        private val request =
+                NetworkRequest.Builder()
+                        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                        .build()
         private var isConnected: Boolean? = null
 
         @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
         fun startMonitoring() {
             Log.d(NoNet.javaClass.name, "Starting connection monitoring")
+            connectivityManager.registerNetworkCallback(request, networkCallback)
             handler.post(runnable)
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         fun stopMonitoring() {
             Log.d(NoNet.javaClass.name, "Stopping connection monitoring")
+            connectivityManager.registerNetworkCallback(request, networkCallback)
             handler.removeCallbacks(runnable)
         }
 
