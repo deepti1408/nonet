@@ -6,6 +6,7 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.*
 import okhttp3.*
@@ -91,19 +92,21 @@ object NoNet {
     private class ConnectionObserver(private val config: Config,
                                      private val lifecycleOwner: LifecycleOwner,
                                      private val callback: (Boolean) -> Unit) : LifecycleObserver {
-        private val handler = Handler()
+        private val monitorHandler = Handler()
         private val runnable = object : Runnable {
+            private val callbackHandler = Handler(Looper.getMainLooper())
+
             override fun run() {
                 isConnected(config) {
                     if (config.callbackOnlyIfChanged) {
-                        if (isConnected != it) callback(it)
-                    } else callback(it)
+                        if (isConnected != it) callbackHandler.post { callback(it) }
+                    } else callbackHandler.post { callback(it) }
                     isConnected = it
                     val pollInterval =
                             if (it) config.connectedPollInterval
                             else config.disconnectedPollInterval
                     if (pollInterval > 0) {
-                        handler.postDelayed(this, pollInterval * 1000)
+                        monitorHandler.postDelayed(this, pollInterval * 1000)
                     }
                 }
             }
@@ -111,20 +114,20 @@ object NoNet {
         private val networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 Log.d(NoNet.javaClass.name, "Network available")
-                handler.removeCallbacks(runnable)
-                handler.post(runnable)
+                monitorHandler.removeCallbacks(runnable)
+                monitorHandler.post(runnable)
             }
 
             override fun onLost(network: Network?) {
                 Log.d(NoNet.javaClass.name, "Network lost")
-                handler.removeCallbacks(runnable)
-                handler.post(runnable)
+                monitorHandler.removeCallbacks(runnable)
+                monitorHandler.post(runnable)
             }
 
             override fun onUnavailable() {
                 Log.d(NoNet.javaClass.name, "Network unavailable")
-                handler.removeCallbacks(runnable)
-                handler.post(runnable)
+                monitorHandler.removeCallbacks(runnable)
+                monitorHandler.post(runnable)
             }
         }
         private val request =
@@ -138,14 +141,14 @@ object NoNet {
         fun startMonitoring() {
             Log.d(NoNet.javaClass.name, "Starting connection monitoring")
             connectivityManager.registerNetworkCallback(request, networkCallback)
-            handler.post(runnable)
+            monitorHandler.post(runnable)
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         fun stopMonitoring() {
             Log.d(NoNet.javaClass.name, "Stopping connection monitoring")
             connectivityManager.unregisterNetworkCallback(networkCallback)
-            handler.removeCallbacks(runnable)
+            monitorHandler.removeCallbacks(runnable)
         }
 
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
