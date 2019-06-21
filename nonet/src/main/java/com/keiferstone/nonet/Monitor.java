@@ -27,6 +27,7 @@ public class Monitor {
     private Configuration configuration;
     private Handler handler;
     private boolean poll;
+    private boolean checkIfPoll;
     private Toast toast;
     private Snackbar snackbar;
     private WeakReference<BannerView> bannerRef;
@@ -41,6 +42,7 @@ public class Monitor {
         this.configuration = new Configuration();
         this.handler = new Handler();
         this.poll = false;
+        this.checkIfPoll = false;
         this.toast = null;
         this.snackbar = null;
         this.bannerRef = new WeakReference<>(null);
@@ -68,11 +70,13 @@ public class Monitor {
     }
 
     void start() {
+        checkIfPoll =true;
         registerConnectivityReceiver();
         schedulePollTask();
     }
 
     void stop() {
+        checkIfPoll =true;
         unregisterConnectivityReceiver();
         cancelPollTask();
         cancelToast();
@@ -138,7 +142,7 @@ public class Monitor {
     }
 
     private void schedulePollTask() {
-        if (poll) {
+        if (poll && checkIfPoll) {
             int pollFrequency = connectionStatus == CONNECTED
                     ? configuration.getConnectedPollFrequency()
                     : configuration.getDisconnectedPollFrequency();
@@ -220,6 +224,7 @@ public class Monitor {
          */
         public Builder poll() {
             monitor.poll = true;
+            monitor.checkIfPoll =true;
             return this;
         }
 
